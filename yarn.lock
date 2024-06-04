@@ -1450,6 +1450,11 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
+phosphor@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/phosphor/-/phosphor-0.7.1.tgz#fad12fe9568bc85e89c6d57326ba58d27a1d2b21"
+  integrity sha512-bnpHbDENPg8cZIC/lFqm+QJYxH3fHkcOP4NgWKmX1/gNs1KfSmTa61A9kmAXiv6xLNFVzPImipDJnIFfBCDFCQ==
+
 picocolors@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.1.tgz#a8ad579b571952f0e5d25892de5445bcfe25aaa1"
