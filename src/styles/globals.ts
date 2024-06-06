@@ -12,11 +12,11 @@ export const GlobalStyle = createGlobalStyle`
     body {
         max-width: 100vw;
         overflow-x: hidden;
-        font-family: ${defaultTheme['font-family']};
+        font-family: ${defaultTheme.fonts.body};
     }
 
     input, button, textarea, select {
-        font-family: ${defaultTheme['font-family']};
+        font-family: ${defaultTheme.fonts.body};
     }
 
     a {
