@@ -13,6 +13,7 @@ export const GlobalStyle = createGlobalStyle`
         max-width: 100vw;
         overflow-x: hidden;
         font-family: ${defaultTheme.fonts.body};
+        background-color: ${defaultTheme.gray['900']};
     }
 
     input, button, textarea, select {
