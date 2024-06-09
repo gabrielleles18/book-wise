@@ -1,16 +1,16 @@
 import {Box, Flex, Text} from '@chakra-ui/react';
 import Image from "next/image";
-import homeImage from '../../assets/image/home.png';
-import googleIcon from '../../assets/icon/google.svg';
-import githubIcon from '../../assets/icon/github.svg';
-import rocketIcon from '../../assets/icon/rocket.svg';
+import homeImage from '../../../public/image/home.png';
+import googleIcon from '../../../public/icon/google.svg';
+import githubIcon from '../../../public/icon/github.svg';
+import rocketIcon from '../../../public/icon/rocket.svg';
 
-import {defaultTheme} from "@/styles/themes/default";
+import {theme} from "@/styles/themes/default";
 import Link from "next/link";
 import {SocialButton} from "@/components/SocialButton";
 
 export default function Login() {
-    console.log(defaultTheme);
+
     return (
         <Flex p={4} h="100vh">
             <Flex w={'33%'} h={'100%'} position={'relative'}>
@@ -21,7 +21,7 @@ export default function Login() {
                     priority={true}
                     objectFit={'cover'}
                     layout={'fill'}
-                    style={{borderRadius: defaultTheme.radii.lg, position: 'absolute'}}
+                    style={{borderRadius: theme.radii.lg, position: 'absolute'}}
                 />
             </Flex>
 
@@ -34,7 +34,7 @@ export default function Login() {
                         <SocialButton
                             icon={googleIcon}
                             text={'Entrar com Google'}
-                            href={'https://google.com'}
+                            href={'/'}
                         />
 
                         <SocialButton

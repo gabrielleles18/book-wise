@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import {defaultTheme} from "@/styles/themes/default";
+import {theme} from "@/styles/themes/default";
 
 export const GlobalStyle = createGlobalStyle`
     * {
@@ -12,12 +12,13 @@ export const GlobalStyle = createGlobalStyle`
     body {
         max-width: 100vw;
         overflow-x: hidden;
-        font-family: ${defaultTheme.fonts.body};
-        background-color: ${defaultTheme.gray['900']};
+        font-family: ${theme.fonts.body};
+        color: ${theme.colors.gray['50']};
+        background-color: ${theme.colors.gray['900']};
     }
 
     input, button, textarea, select {
-        font-family: ${defaultTheme.fonts.body};
+        font-family: ${theme.fonts.body};
     }
 
     a {
