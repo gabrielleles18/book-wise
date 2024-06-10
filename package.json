@@ -16,6 +16,7 @@
         "@emotion/styled": "^11.11.5",
         "@smastrom/react-rating": "^1.5.0",
         "@types/styled-components": "^5.1.34",
+        "dayjs": "^1.11.11",
         "framer-motion": "^11.2.10",
         "next": "^14.2.3",
         "phosphor": "^0.7.1",

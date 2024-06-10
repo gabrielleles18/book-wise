@@ -15,7 +15,7 @@ export default function Home() {
             <Sidebar/>
             <Flex marginLeft={'calc(232px + 1rem)'} w={'100%'} alignItems={'flex-start'} flexDirection={'column'}>
 
-                <Flex w={'100%'} maxW={'1100px'} flexDirection={'column'} m={'0 auto'}>
+                <Flex w={'100%'} maxW={'1100px'} flexDirection={'column'} m={'0 auto'} pb={4}>
                     <Flex mt={14} mb={10}>
                         <Flex gap={'10px'} alignItems={'center'}>
                             <PiChartLineUp size={34} color={theme.colors.purple['400']}/>
