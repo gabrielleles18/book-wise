@@ -13,7 +13,7 @@ export function CardDetails() {
     const boxStyles = {
         px: 7,
         py: 6,
-        bg: 'gray.700',
+        bg: 'gray.800',
         borderRadius: '8',
         flexDirection: 'row',
         gap: '24px',
