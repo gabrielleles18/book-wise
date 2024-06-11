@@ -27,9 +27,15 @@ export default function Home() {
                         <Flex flex={1} gap={'12px'} flexDirection={'column'}>
                             <Text mb={'4px'}>Avaliações mais recentes</Text>
 
-                            <CardDetails />
-                            <CardDetails />
-                            <CardDetails />
+                            <CardDetails
+                                title={'O poder do hábito'}
+                                author={'Charles Duhigg'}
+                                image={'http://localhost:3000/book.png'}
+                                rating={4.5}
+                                user={'Jaxson Dias'}
+                                date={'2021-09-01'}
+                                description={'Um livro que mostra como os hábitos funcionam e como podemos mudá-los.'}
+                            />
                         </Flex>
                         <Flex w={'324px'} flexDirection={'column'} gap={3}>
                             <Flex w={'100%'} justifyContent={'space-between'} mb={1}>

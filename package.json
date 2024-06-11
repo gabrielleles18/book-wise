@@ -2,11 +2,13 @@
     "name": "book-wise",
     "version": "0.1.0",
     "private": true,
+    "type": "module",
     "scripts": {
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "prisma.seed": "ts-node prisma/seed.ts"
     },
     "dependencies": {
         "@chakra-ui/icons": "^2.1.1",
@@ -14,6 +16,7 @@
         "@chakra-ui/react": "^2.8.2",
         "@emotion/react": "^11.11.4",
         "@emotion/styled": "^11.11.5",
+        "@prisma/client": "5.15.0",
         "@smastrom/react-rating": "^1.5.0",
         "@types/styled-components": "^5.1.34",
         "dayjs": "^1.11.11",
@@ -21,15 +24,17 @@
         "next": "^14.2.3",
         "phosphor": "^0.7.1",
         "phosphor-react": "^1.4.1",
+        "prisma": "^5.15.0",
         "react": "^18",
         "react-dom": "^18",
         "react-icons": "^5.2.1",
         "styled-components": "^6.1.11"
     },
     "devDependencies": {
-        "@types/node": "^20",
+        "@types/node": "^20.14.2",
         "@types/react": "^18",
         "@types/react-dom": "^18",
-        "typescript": "^5"
+        "ts-node": "^10.9.2",
+        "typescript": "^5.4.5"
     }
 }

@@ -1,12 +1,25 @@
 import {Avatar, Flex, Heading, Text, Wrap} from "@chakra-ui/react";
 import Image from "next/image";
-import bookImage from '../../../public/book.png';
-
 import '@smastrom/react-rating/style.css'
 import {StarRating} from "@/components/StarRating";
 import React from "react";
 
-export function CardDetails() {
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
+
+interface CardDetailsProps {
+    title: string;
+    author: string;
+    image: string;
+    rating: number;
+    user: string;
+    date: string;
+    description: string;
+}
+
+export function CardDetails({title, author, image, rating, user, date, description}: CardDetailsProps) {
     const showUser = true;
     const boxStyles = {
         px: 7,
@@ -23,6 +36,9 @@ export function CardDetails() {
         }
     }
 
+    // const dateFromNow = dayjs('1999-01-01').fromNow();
+    const dateFromNow = dayjs(date).fromNow();
+
     return (
         <Flex sx={boxStyles}>
             {showUser && (
@@ -33,7 +49,9 @@ export function CardDetails() {
                         </Wrap>
                         <Flex flexDirection={'column'}>
                             <Text fontSize={'xl'}>Jaxson Dias</Text>
-                            <Text fontSize={'sm'} color={'gray.300'}>Hoje</Text>
+                            <Text fontSize={'sm'} color={'gray.300'}>
+                                {dateFromNow}
+                            </Text>
                         </Flex>
                     </Flex>
 
@@ -41,22 +59,22 @@ export function CardDetails() {
                 </Flex>
             )}
             <Flex gap={'24px'} w={'100%'}>
-                <Image src={bookImage} alt={''} width={108} height={152} objectFit={'contain'}/>
+                <Image src={image} alt={''} width={108} height={152} objectFit={'contain'}/>
                 <Flex flexDirection={'column'} w={'100%'}>
                     {!showUser && (
                         <Flex w={'100%'} justifyContent={'space-between'} alignItems={'flex-start'} mb={4}>
-                            <Text color={'gray.50'}>Hoje</Text>
+                            <Text color={'gray.50'}>
+                                {dateFromNow}
+                            </Text>
                             <StarRating/>
                         </Flex>
                     )}
 
-                    <Heading color={'gray.50'} fontSize={'2xl'} mb={1}>O Poder do Hábito</Heading>
-                    <Text color={'gray.200'}>Aditya Bhargava</Text>
+                    <Heading color={'gray.50'} fontSize={'2xl'} mb={1}>{title}</Heading>
+                    <Text color={'gray.200'}>{author}</Text>
 
                     <Flex flex={1} alignItems={'flex-end'}>
-                        <Text>
-                            Nec tempor nunc in egestas. Euismod nisi eleifend
-                        </Text>
+                        <Text>{description}</Text>
                     </Flex>
                 </Flex>
             </Flex>
