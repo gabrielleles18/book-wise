@@ -1,15 +1,14 @@
 import Image from "next/image";
-import {Avatar, Flex, Text, Wrap, WrapItem} from "@chakra-ui/react";
+import {Avatar, Flex, Text, Wrap} from "@chakra-ui/react";
 import logoImage from '../../../public/image/logo.png';
-import {PiBinoculars, PiChartLineUp, PiUser, PiSignOut} from "react-icons/pi";
+import {PiBinoculars, PiChartLineUp, PiSignOut, PiUser} from "react-icons/pi";
 import {SidebarLink} from "@/components/SidebarLink";
 import React from "react";
 import Link from "next/link";
 import {theme} from "@/styles/themes/default";
-import {User} from "phosphor-react";
 
 export function Sidebar() {
-    const isLogin = true;
+    const isLogin = false;
 
     return (
         <Flex
@@ -42,11 +41,14 @@ export function Sidebar() {
                     text={'Explorar'}
                     icon={<PiBinoculars size={24}/>}
                 />
-                <SidebarLink
-                    href={'/profile'}
-                    text={'Perfil'}
-                    icon={<PiUser size={24}/>}
-                />
+
+                {isLogin && (
+                    <SidebarLink
+                        href={'/profile'}
+                        text={'Perfil'}
+                        icon={<PiUser size={24}/>}
+                    />
+                )}
             </Flex>
 
             <Link href={'/login'}>
