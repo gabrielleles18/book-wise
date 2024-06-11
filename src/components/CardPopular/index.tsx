@@ -1,10 +1,15 @@
 import Image from "next/image";
-import bookImage from "../../../public/book.png";
 import {Flex, Heading, Text} from "@chakra-ui/react";
 import '@smastrom/react-rating/style.css'
 import {StarRating} from "@/components/StarRating";
+import {BookProps} from "@/@types/global";
 
-export function CardPopular() {
+interface CardPopularProps {
+    rate: number,
+    book: BookProps
+}
+
+export function CardPopular({rate, book}: CardPopularProps) {
 
     const boxStyles = {
         px: 6,
@@ -19,16 +24,17 @@ export function CardPopular() {
             bg: 'gray.700'
         }
     }
-
+    const imageSrc = `http://localhost:3000/${book.cover_url}`;
+    console.log(rate);
     return (
         <Flex sx={boxStyles}>
-            <Image src={bookImage} alt={''} width={64} height={94} objectFit={'contain'}/>
+            <Image src={imageSrc} alt={''} width={64} height={94} objectFit={'contain'}/>
             <Flex w={'100%'} flexDirection={'column'}>
-                <Heading color={'gray.50'} fontSize={'md'} mb={1}>O Poder do Hábito</Heading>
-                <Text color={'gray.200'}>Aditya Bhargava</Text>
+                <Heading color={'gray.50'} fontSize={'md'} mb={1}>{book.name}</Heading>
+                <Text color={'gray.200'}>{book.author}</Text>
 
                 <Flex flex={1} alignItems={'flex-end'}>
-                    <StarRating/>
+                    <StarRating rate={rate}/>
                 </Flex>
             </Flex>
         </Flex>

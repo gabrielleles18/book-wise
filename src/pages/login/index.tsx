@@ -1,6 +1,6 @@
 import {Box, Flex, Text} from '@chakra-ui/react';
 import Image from "next/image";
-import homeImage from '../../../public/image/home.png';
+import homeImage from '../../../public/images/home.png';
 import googleIcon from '../../../public/icon/google.svg';
 import githubIcon from '../../../public/icon/github.svg';
 import rocketIcon from '../../../public/icon/rocket.svg';

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import {Avatar, Flex, Text, Wrap} from "@chakra-ui/react";
-import logoImage from '../../../public/image/logo.png';
+import logoImage from '../../../public/images/logo.png';
 import {PiBinoculars, PiChartLineUp, PiSignOut, PiUser} from "react-icons/pi";
 import {SidebarLink} from "@/components/SidebarLink";
 import React from "react";
@@ -20,7 +20,7 @@ export function Sidebar() {
             alignItems={'center'}
             flexDirection={'column'}
             py={'10'}
-            backgroundImage={'url(./image/sidebar.png)'}
+            backgroundImage={'url(./images/sidebar.png)'}
         >
             <Image
                 src={logoImage}

@@ -8,8 +8,29 @@ import React from "react";
 import Link from "next/link";
 import {CaretRight} from "phosphor-react";
 import {theme} from "@/styles/themes/default";
+import {api} from "@/lib/axios";
+import {useQuery} from "react-query";
+import {RatingPopularProps, RatingProps} from "@/@types/global";
 
 export default function Home() {
+
+    const {data: rating} = useQuery({
+        queryKey: ['rating'],
+        queryFn: async () => {
+            const response = await api.get(`/rating`)
+
+            return response.data
+        },
+    });
+
+    const {data: ratingPopular} = useQuery({
+        queryKey: ['ratingPopular'],
+        queryFn: async () => {
+            const response = await api.get(`/rating/popular`)
+
+            return response.data
+        },
+    });
 
     return (
         <Flex p={4} h="100vh">
@@ -28,15 +49,15 @@ export default function Home() {
                         <Flex flex={1} gap={'12px'} flexDirection={'column'}>
                             <Text mb={'4px'}>Avaliações mais recentes</Text>
 
-                            <CardDetails
-                                title={'O poder do hábito'}
-                                author={'Charles Duhigg'}
-                                image={'http://localhost:3000/book.png'}
-                                rating={4.5}
-                                user={'Jaxson Dias'}
-                                date={'2021-09-01'}
-                                description={'Um livro que mostra como os hábitos funcionam e como podemos mudá-los.'}
-                            />
+                            {rating?.map((book: RatingProps) => (
+                                <CardDetails
+                                    key={book.id}
+                                    user={book.user}
+                                    book={book.book}
+                                    rate={book.rate}
+                                    created_at={book.created_at}
+                                />
+                            ))}
                         </Flex>
                         <Flex w={'324px'} flexDirection={'column'} gap={3}>
                             <Flex w={'100%'} justifyContent={'space-between'} mb={1}>
@@ -58,8 +79,13 @@ export default function Home() {
                                 </Flex>
                             </Flex>
 
-                            <CardPopular/>
-                            <CardPopular/>
+                            {ratingPopular?.map((book: RatingPopularProps) => (
+                                <CardPopular
+                                    key={book.id}
+                                    book={book.book}
+                                    rate={book.rate}
+                                />
+                            ))}
                         </Flex>
                     </Flex>
                 </Flex>

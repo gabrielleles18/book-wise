@@ -6,20 +6,18 @@ import React from "react";
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import {BookProps, UserProps} from "@/@types/global";
 
 dayjs.extend(relativeTime);
 
 interface CardDetailsProps {
-    title: string;
-    author: string;
-    image: string;
-    rating: number;
-    user: string;
-    date: string;
-    description: string;
+    user: UserProps
+    book: BookProps
+    rate: number,
+    created_at: Date
 }
 
-export function CardDetails({title, author, image, rating, user, date, description}: CardDetailsProps) {
+export function CardDetails({user, book, rate, created_at}: CardDetailsProps) {
     const showUser = true;
     const boxStyles = {
         px: 7,
@@ -36,8 +34,8 @@ export function CardDetails({title, author, image, rating, user, date, descripti
         }
     }
 
-    // const dateFromNow = dayjs('1999-01-01').fromNow();
-    const dateFromNow = dayjs(date).fromNow();
+    const dateEvaluation = dayjs(created_at).fromNow();
+    const imageSrc = `http://localhost:3000/${book.cover_url}`;
 
     return (
         <Flex sx={boxStyles}>
@@ -45,36 +43,42 @@ export function CardDetails({title, author, image, rating, user, date, descripti
                 <Flex justifyContent={'space-between'} alignItems={'flex-start'}>
                     <Flex gap={4} alignItems={'center'}>
                         <Wrap>
-                            <Avatar name='Dan Abrahmov' src='https://bit.ly/dan-abramov' size={'md'}/>
+                            <Avatar name={user.name} src={user.avatar_url} size={'md'}/>
                         </Wrap>
                         <Flex flexDirection={'column'}>
-                            <Text fontSize={'xl'}>Jaxson Dias</Text>
+                            <Text fontSize={'xl'}>{user.name}</Text>
                             <Text fontSize={'sm'} color={'gray.300'}>
-                                {dateFromNow}
+                                {dateEvaluation}
                             </Text>
                         </Flex>
                     </Flex>
 
-                    <StarRating/>
+                    <StarRating rate={rate}/>
                 </Flex>
             )}
             <Flex gap={'24px'} w={'100%'}>
-                <Image src={image} alt={''} width={108} height={152} objectFit={'contain'}/>
+                <Image
+                    src={imageSrc}
+                    alt={''}
+                    width={108}
+                    height={152}
+                    objectFit={'contain'}
+                />
                 <Flex flexDirection={'column'} w={'100%'}>
-                    {!showUser && (
-                        <Flex w={'100%'} justifyContent={'space-between'} alignItems={'flex-start'} mb={4}>
-                            <Text color={'gray.50'}>
-                                {dateFromNow}
-                            </Text>
-                            <StarRating/>
-                        </Flex>
-                    )}
+                    {/*{!showUser && (*/}
+                    {/*    <Flex w={'100%'} justifyContent={'space-between'} alignItems={'flex-start'} mb={4}>*/}
+                    {/*        <Text color={'gray.50'}>*/}
+                    {/*            {dateFromNow}*/}
+                    {/*        </Text>*/}
+                    {/*        <StarRating/>*/}
+                    {/*    </Flex>*/}
+                    {/*)}*/}
 
-                    <Heading color={'gray.50'} fontSize={'2xl'} mb={1}>{title}</Heading>
-                    <Text color={'gray.200'}>{author}</Text>
+                    <Heading color={'gray.50'} fontSize={'2xl'} mb={1}>{book.name}</Heading>
+                    <Text color={'gray.200'}>{book.author}</Text>
 
                     <Flex flex={1} alignItems={'flex-end'}>
-                        <Text>{description}</Text>
+                        <Text>{book.summary}</Text>
                     </Flex>
                 </Flex>
             </Flex>
