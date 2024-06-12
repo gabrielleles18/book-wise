@@ -3,6 +3,7 @@ import {Flex, Heading, Text, withDelay} from "@chakra-ui/react";
 import '@smastrom/react-rating/style.css'
 import {StarRating} from "@/components/StarRating";
 import {BookProps} from "@/@types/global";
+import React from "react";
 
 interface CardPopularProps {
     rate: {
@@ -17,9 +18,11 @@ interface CardPopularProps {
     name: string
     author: string
     withCont?: string
+    ref?: React.RefObject<HTMLDivElement>;
+    onClick?: (() => void) | undefined;
 }
 
-export function CardPopular({rate, coverUrl, name, author, withCont}: CardPopularProps) {
+export function CardPopular({rate, coverUrl, name, author, withCont, ref, onClick}: CardPopularProps) {
 
     const boxStyles = {
         w: withCont ? withCont : '100%',
@@ -38,10 +41,10 @@ export function CardPopular({rate, coverUrl, name, author, withCont}: CardPopula
     const medRate = rate && Array.isArray(rate) ? rate.reduce((acc, curr) => acc + curr.rate, 0) / rate.length : rate.rate;
 
     return (
-        <Flex sx={boxStyles}>
+        <Flex sx={boxStyles} ref={ref} onClick={onClick}>
             <Image src={imageSrc} alt={''} width={64} height={94} objectFit={'contain'}/>
             <Flex w={'100%'} flexDirection={'column'}>
-                <Heading color={'gray.50'} fontSize={'md'} mb={1}>{ name}</Heading>
+                <Heading color={'gray.50'} fontSize={'md'} mb={1}>{name}</Heading>
                 <Text color={'gray.200'}>{author}</Text>
 
                 <Flex flex={1} alignItems={'flex-end'}>

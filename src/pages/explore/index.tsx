@@ -1,4 +1,13 @@
-import {Button, Flex, FormControl, Heading, Input, InputGroup, InputRightElement} from "@chakra-ui/react";
+import {
+    Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay,
+    Flex,
+    FormControl,
+    Heading,
+    Input,
+    InputGroup,
+    InputRightElement,
+    useDisclosure
+} from "@chakra-ui/react";
 import {Sidebar} from "@/components/Sidebar";
 import {PiBinoculars} from "react-icons/pi";
 import {theme} from "@/styles/themes/default";
@@ -29,8 +38,11 @@ interface CardPopularProps {
 }
 
 export default function explore() {
+    const cardPopularRef = React.useRef<HTMLDivElement | null>(null);
     const [categorySelected, setCategorySelected] = React.useState<string | null>(null);
     const [search, setSearch] = React.useState<string | null>(null);
+    const [bookIdClicked, setBookIdClicked] = React.useState<string | null>(null);
+    const {isOpen, onOpen, onClose} = useDisclosure();
 
     const {data: category} = useQuery({
         queryKey: ['category'],
@@ -119,9 +131,28 @@ export default function explore() {
                                 coverUrl={book.cover_url}
                                 name={book.name}
                                 author={book.author}
+                                ref={cardPopularRef}
+                                onClick={onOpen}
                             />
                         ))}
                     </Flex>
+
+                    <Drawer
+                        isOpen={isOpen}
+                        placement='right'
+                        onClose={onClose}
+                        finalFocusRef={cardPopularRef}
+                        size={'lg'}
+                        bg={'gray.800'}
+                    >
+                        <DrawerOverlay/>
+                        <DrawerContent w={'660px'}>
+                            <DrawerCloseButton/>
+
+                            <DrawerFooter>
+                            </DrawerFooter>
+                        </DrawerContent>
+                    </Drawer>
                 </Flex>
             </Flex>
         </Flex>
