@@ -26,6 +26,9 @@ export interface RatingProps {
     user: UserProps
     book: BookProps
 }
+export interface BooksProps extends RatingProps {
+
+}
 
 export interface RatingPopularProps {
     id: string

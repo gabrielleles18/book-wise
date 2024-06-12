@@ -1,24 +1,25 @@
 import Image from "next/image";
-import {Flex, Heading, Text} from "@chakra-ui/react";
+import {Flex, Heading, Text, withDelay} from "@chakra-ui/react";
 import '@smastrom/react-rating/style.css'
 import {StarRating} from "@/components/StarRating";
 import {BookProps} from "@/@types/global";
 
 interface CardPopularProps {
     rate: number,
-    book: BookProps
+    book: BookProps,
+    withCont: string
 }
 
-export function CardPopular({rate, book}: CardPopularProps) {
+export function CardPopular({rate, book, withCont}: CardPopularProps) {
 
     const boxStyles = {
+        w: withCont ? withCont : '100%',
         px: 6,
         py: 5,
         bg: 'gray.800',
         borderRadius: '8',
         flexDirection: 'row',
         gap: '24px',
-        w: '100%',
         cursor: 'pointer',
         ':hover': {
             bg: 'gray.700'
