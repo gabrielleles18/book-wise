@@ -9,7 +9,32 @@ export default async function handler(
         return res.status(405).end()
     }
 
-    const books = await prisma.book.findMany();
+    // const category = req.query.categoryId;
 
-    return res.status(201).json(books);
+    let where = {};
+    // if (category !== undefined && category !== null) {
+        where = {
+            categories: {
+                some: {
+                    id: 'a1d0ee25-9c9a-49c8-84eb-7af1e0dd356d'
+                }
+            }
+        }
+    // }
+
+    const books = await prisma.book.findMany({
+        where,
+        select: {
+            name: true,
+            author: true,
+            cover_url: true,
+            categories: {
+                select: {
+                    name: true,
+                },
+            },
+        },
+    });
+
+    return res.status(200).json(books);
 }

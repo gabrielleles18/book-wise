@@ -9,12 +9,18 @@ export default async function handler(
         return res.status(405).end()
     }
 
+    let take = 20;
+
+    if (req.query.take) {
+        take = parseInt(req.query.take as string);
+    }
+
     const books = await prisma.rating.findMany(
         {
             orderBy: {
                 created_at: 'desc'
             },
-            take: 10,
+            take: take,
             include: {
                 book: true,
                 user: true

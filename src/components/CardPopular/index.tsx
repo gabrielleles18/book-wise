@@ -5,12 +5,21 @@ import {StarRating} from "@/components/StarRating";
 import {BookProps} from "@/@types/global";
 
 interface CardPopularProps {
-    rate: number,
-    book: BookProps,
-    withCont: string
+    rate: {
+        book_id: string
+        created_at: Date
+        description: string
+        id: string
+        rate: number
+        user_id: string
+    },
+    coverUrl: string
+    name: string
+    author: string
+    withCont?: string
 }
 
-export function CardPopular({rate, book, withCont}: CardPopularProps) {
+export function CardPopular({rate, coverUrl, name, author, withCont}: CardPopularProps) {
 
     const boxStyles = {
         w: withCont ? withCont : '100%',
@@ -25,17 +34,18 @@ export function CardPopular({rate, book, withCont}: CardPopularProps) {
             bg: 'gray.700'
         }
     }
-    const imageSrc = `http://localhost:3000/${book.cover_url}`;
-    console.log(rate);
+    const imageSrc = `http://localhost:3000/${coverUrl}`;
+    const medRate = rate && Array.isArray(rate) ? rate.reduce((acc, curr) => acc + curr.rate, 0) / rate.length : rate.rate;
+
     return (
         <Flex sx={boxStyles}>
             <Image src={imageSrc} alt={''} width={64} height={94} objectFit={'contain'}/>
             <Flex w={'100%'} flexDirection={'column'}>
-                <Heading color={'gray.50'} fontSize={'md'} mb={1}>{book.name}</Heading>
-                <Text color={'gray.200'}>{book.author}</Text>
+                <Heading color={'gray.50'} fontSize={'md'} mb={1}>{ name}</Heading>
+                <Text color={'gray.200'}>{author}</Text>
 
                 <Flex flex={1} alignItems={'flex-end'}>
-                    <StarRating rate={rate}/>
+                    <StarRating rate={Math.floor(medRate)}/>
                 </Flex>
             </Flex>
         </Flex>

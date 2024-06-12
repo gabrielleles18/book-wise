@@ -23,8 +23,23 @@ interface CategoryProps {
     name: string;
 }
 
+interface CardPopularProps {
+    ratings: {
+        book_id: string
+        created_at: Date
+        description: string
+        id: string
+        rate: number
+        user_id: string
+    },
+    cover_url: string
+    name: string
+    author: string
+    withCont?: string
+}
+
 export default function explore() {
-    const [categorySelected, setCategorySelected] = React.useState<string>('0');
+    const [categorySelected, setCategorySelected] = React.useState<string | null >(null);
 
     const {data: category} = useQuery({
         queryKey: ['category'],
@@ -38,7 +53,7 @@ export default function explore() {
     const {data: books} = useQuery({
         queryKey: ['books'],
         queryFn: async () => {
-            const response = await api.get(`/rating`)
+            const response = await api.get(`/books`)
 
             return response.data
         },
@@ -76,12 +91,12 @@ export default function explore() {
                     <Flex gap={'12px'} flexWrap={'wrap'} marginBottom={'48px'}>
                         <Button
                             borderRadius={'999'}
-                            variant={categorySelected == '0' ? 'solid' : 'outline'}
-                            style={categorySelected == '0' ? {color: 'white'} : {}}
+                            variant={categorySelected == null ? 'solid' : 'outline'}
+                            style={!categorySelected == null ? {color: 'white'} : {}}
                             colorScheme={'green'}
                             borderColor={'green.400'}
                             _hover={{bg: 'green.400', textColor: 'white'}}
-                            onClick={() => setCategorySelected('0')}
+                            onClick={() => setCategorySelected(null)}
                         >
                             Tudo
                         </Button>
@@ -103,11 +118,13 @@ export default function explore() {
                     </Flex>
 
                     <Flex flexWrap={'wrap'} gap={4}>
-                        {books?.map((book: BooksProps) => (
+                        {books?.map((book: CardPopularProps) => (
                             <CardPopular
                                 withCont={'calc(33.333% - 1rem)'}
-                                rate={book.rate}
-                                book={book.book}
+                                rate={book.ratings}
+                                coverUrl={book.cover_url}
+                                name={book.name}
+                                author={book.author}
                             />
                         ))}
                     </Flex>
