@@ -39,7 +39,7 @@ interface CardPopularProps {
 }
 
 export default function explore() {
-    const [categorySelected, setCategorySelected] = React.useState<string | null >(null);
+    const [categorySelected, setCategorySelected] = React.useState<string | null>(null);
 
     const {data: category} = useQuery({
         queryKey: ['category'],
@@ -51,14 +51,17 @@ export default function explore() {
     });
 
     const {data: books} = useQuery({
-        queryKey: ['books'],
+        queryKey: ['books', categorySelected],
         queryFn: async () => {
-            const response = await api.get(`/books`)
+            const response = await api.get(`/books`, {
+                params: {
+                    categoryId: categorySelected
+                }
+            })
 
             return response.data
         },
     });
-    console.log(books);
 
     return (
         <Flex p={4} h="100vh">

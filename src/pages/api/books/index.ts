@@ -9,31 +9,24 @@ export default async function handler(
         return res.status(405).end()
     }
 
-    // const category = req.query.categoryId;
+    const {categoryId} = req.query;
 
     let where = {};
-    // if (category !== undefined && category !== null) {
+    if (categoryId) {
         where = {
             categories: {
                 some: {
-                    id: 'a1d0ee25-9c9a-49c8-84eb-7af1e0dd356d'
+                    categoryId: categoryId
                 }
             }
         }
-    // }
+    }
 
     const books = await prisma.book.findMany({
         where,
-        select: {
-            name: true,
-            author: true,
-            cover_url: true,
-            categories: {
-                select: {
-                    name: true,
-                },
-            },
-        },
+        include: {
+            ratings: true,
+        }
     });
 
     return res.status(200).json(books);
