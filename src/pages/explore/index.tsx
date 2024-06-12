@@ -87,7 +87,7 @@ export default function explore() {
                                 size='lg'
                                 type='search'
                                 color={'green.50'}
-                                placeholder='Buscar livro ou autor'
+                                placeholder='Buscar por livro'
                                 _placeholder={{color: 'green.100'}}
                                 borderColor={'green.700'}
                                 onChange={handleInputChange}
@@ -143,7 +143,7 @@ export default function explore() {
                         onClose={onClose}
                         finalFocusRef={cardPopularRef}
                         size={'lg'}
-                        bg={'gray.800'}
+                        colorScheme={'blue'}
                     >
                         <DrawerOverlay/>
                         <DrawerContent w={'660px'}>
