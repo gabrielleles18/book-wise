@@ -1,13 +1,4 @@
-import {
-    Flex,
-    Heading,
-    FormControl,
-    Input,
-    InputGroup,
-    InputLeftElement,
-    InputRightElement,
-    Button
-} from "@chakra-ui/react";
+import {Button, Flex, FormControl, Heading, Input, InputGroup, InputRightElement} from "@chakra-ui/react";
 import {Sidebar} from "@/components/Sidebar";
 import {PiBinoculars} from "react-icons/pi";
 import {theme} from "@/styles/themes/default";
@@ -15,7 +6,6 @@ import React from "react";
 import {SearchIcon} from "@chakra-ui/icons";
 import {useQuery} from "react-query";
 import {api} from "@/lib/axios";
-import {BookProps, BooksProps} from "@/@types/global";
 import {CardPopular} from "@/components/CardPopular";
 
 interface CategoryProps {
@@ -40,6 +30,7 @@ interface CardPopularProps {
 
 export default function explore() {
     const [categorySelected, setCategorySelected] = React.useState<string | null>(null);
+    const [search, setSearch] = React.useState<string | null>(null);
 
     const {data: category} = useQuery({
         queryKey: ['category'],
@@ -51,17 +42,20 @@ export default function explore() {
     });
 
     const {data: books} = useQuery({
-        queryKey: ['books', categorySelected],
+        queryKey: ['books', categorySelected, search],
         queryFn: async () => {
             const response = await api.get(`/books`, {
                 params: {
-                    categoryId: categorySelected
+                    categoryId: categorySelected,
+                    search
                 }
             })
 
             return response.data
         },
     });
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
 
     return (
         <Flex p={4} h="100vh">
@@ -77,18 +71,15 @@ export default function explore() {
                         </Flex>
 
                         <FormControl w={'430px'}>
-                            <InputGroup>
-                                <Input
-                                    type='search'
-                                    placeholder='Buscar livro ou autor'
-                                    color={'gray.500'}
-                                    border={'1px'}
-                                    borderColor={'gray.600'}
-                                />
-                                <InputRightElement pointerEvents='none'>
-                                    <SearchIcon color='gray.300'/>
-                                </InputRightElement>
-                            </InputGroup>
+                            <Input
+                                size='lg'
+                                type='search'
+                                color={'green.50'}
+                                placeholder='Buscar livro ou autor'
+                                _placeholder={{color: 'green.100'}}
+                                borderColor={'green.700'}
+                                onChange={handleInputChange}
+                            />
                         </FormControl>
                     </Flex>
                     <Flex gap={'12px'} flexWrap={'wrap'} marginBottom={'48px'}>

@@ -9,11 +9,23 @@ export default async function handler(
         return res.status(405).end()
     }
 
-    const {categoryId} = req.query;
-
+    const {categoryId, search} = req.query;
     let where = {};
+
+    if (search) {
+        where = {
+            ...where,
+            OR: [{
+                name: {
+                    contains: search
+                }
+            }]
+        }
+    }
+
     if (categoryId) {
         where = {
+            ...where,
             categories: {
                 some: {
                     categoryId: categoryId
