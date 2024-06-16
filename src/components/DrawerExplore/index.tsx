@@ -1,4 +1,5 @@
 import {
+    Avatar,
     Drawer,
     DrawerCloseButton,
     DrawerContent,
@@ -13,10 +14,14 @@ import Image from "next/image";
 import {StarRating} from "@/components/StarRating";
 import {useQuery} from "react-query";
 import {api} from "@/lib/axios";
-import {BookProps} from "@/@types/global";
+import {BookProps, RatingProps} from "@/@types/global";
 import {IoBookmarkOutline, IoBookOutline} from "react-icons/io5";
 import {theme} from "@/styles/themes/default";
 import Link from "next/link";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 interface DrawerExploreProps {
     ref: React.MutableRefObject<HTMLDivElement | null>;
@@ -45,7 +50,7 @@ export function DrawerExplore({ref, isOpen, onClose, bookId}: DrawerExploreProps
         bg: 'gray.700',
         borderRadius: '8',
         flexDirection: 'column',
-        mt: 8
+        mt: 4
     }
     console.log(book);
     const imageSrc = `http://localhost:3000/${book?.cover_url}`;
@@ -71,7 +76,7 @@ export function DrawerExplore({ref, isOpen, onClose, bookId}: DrawerExploreProps
             colorScheme={'blue'}
         >
             <DrawerOverlay/>
-            <DrawerContent w={'660px'} bg={'gray.800'} py={10} px={9}>
+            <DrawerContent w={'660px'} bg={'gray.800'} pt={10} px={9} overflow={'auto'}>
                 <DrawerCloseButton right={7} top={4} size={'lg'}/>
                 <Flex sx={boxStyles} ref={ref}>
 
@@ -114,23 +119,36 @@ export function DrawerExplore({ref, isOpen, onClose, bookId}: DrawerExploreProps
                         </Flex>
                     </Flex>
                 </Flex>
-                <Flex justifyContent={'space-between'} mt={8} mb={4}>
+                <Flex justifyContent={'space-between'} mt={10}>
                     <Text color={'gray.50'}>Avaliações</Text>
                     <Text fontWeight={'bold'} color={'gray.400'}>Avaliar</Text>
                 </Flex>
 
-                {book?.ratings && book.ratings.map((rating) => (
-                    <Flex sx={boxStyles} key={rating.id}>
-                        <Flex gap={4}>
-                            <Image src={`http://localhost:3000/${rating?.book?.cover_url}`} alt={''} width={64} height={94} objectFit={'contain'}/>
-                            <Flex flexDirection={'column'}>
-                                <Text color={'gray.50'}>{rating?.user?.name}</Text>
-                                <Text color={'gray.200'}>{rating?.created_at}</Text>
+                {book?.ratings && book.ratings.map((rating: RatingProps) => {
+                    const date = rating?.created_at ? dayjs(rating.created_at).fromNow() : '';
+                    return (
+                        <Flex sx={boxStyles} key={rating.id} gap={3}>
+                            <Flex gap={4} alignItems={'flex-start'}>
+                                {rating?.user?.avatar_url && (
+                                    <Avatar
+                                        name={rating.user.name}
+                                        src={rating.user.avatar_url}
+                                        size={'md'}
+                                    />
+                                )}
+                                <Flex flexDirection={'column'} flex={1}>
+                                    <Text color={'gray.50'} fontWeight={'bold'} size={'md'}>
+                                        {rating?.user?.name}
+                                    </Text>
+                                    <Text color={'gray.200'}>{date}</Text>
+                                </Flex>
+                                <StarRating rate={rating.rate}/>
                             </Flex>
-                            <StarRating rate={rating.rate}/>
+
+                            <Text>{rating.description}</Text>
                         </Flex>
-                    </Flex>
-                ))}
+                    )
+                })}
                 <DrawerFooter>
                 </DrawerFooter>
             </DrawerContent>
