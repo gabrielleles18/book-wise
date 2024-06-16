@@ -32,8 +32,6 @@ export default function Home() {
         },
     });
 
-    console.log(ratingPopular);
-
     return (
         <Flex p={4} h="100vh">
             <Sidebar/>

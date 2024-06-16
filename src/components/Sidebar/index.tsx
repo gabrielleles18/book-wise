@@ -8,7 +8,7 @@ import Link from "next/link";
 import {theme} from "@/styles/themes/default";
 
 export function Sidebar() {
-    const isLogin = false;
+    const isLogin = true;
 
     return (
         <Flex
