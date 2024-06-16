@@ -8,7 +8,7 @@ import {queryClient} from "@/lib/react-query";
 import '../lib/dayjs'
 
 export default function App({Component, pageProps}: AppProps) {
-    console.log(theme);
+
     return (
         <>
             <GlobalStyle/>

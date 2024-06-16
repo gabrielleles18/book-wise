@@ -6,6 +6,9 @@ export interface BookProps {
     name: string
     summary: string
     total_pages: number
+    ratings?: RatingProps[]
+    categories: any[]
+
 }
 
 export interface UserProps {
@@ -23,9 +26,10 @@ export interface RatingProps {
     rate: number
     user_id: string
 
-    user: UserProps
-    book: BookProps
+    user?: UserProps
+    book?: BookProps
 }
+
 export interface BooksProps extends RatingProps {
 
 }

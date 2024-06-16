@@ -1,21 +1,12 @@
-import {
-    Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay,
-    Flex,
-    FormControl,
-    Heading,
-    Input,
-    InputGroup,
-    InputRightElement,
-    useDisclosure
-} from "@chakra-ui/react";
+import {Button, Flex, FormControl, Heading, Input, useDisclosure} from "@chakra-ui/react";
 import {Sidebar} from "@/components/Sidebar";
 import {PiBinoculars} from "react-icons/pi";
 import {theme} from "@/styles/themes/default";
 import React from "react";
-import {SearchIcon} from "@chakra-ui/icons";
 import {useQuery} from "react-query";
 import {api} from "@/lib/axios";
 import {CardPopular} from "@/components/CardPopular";
+import {DrawerExplore} from "@/components/DrawerExplore";
 
 interface CategoryProps {
     id: number;
@@ -35,6 +26,7 @@ interface CardPopularProps {
     name: string
     author: string
     withCont?: string
+    id: string
 }
 
 export default function explore() {
@@ -132,27 +124,21 @@ export default function explore() {
                                 name={book.name}
                                 author={book.author}
                                 ref={cardPopularRef}
-                                onClick={onOpen}
+                                onClick={() => {
+                                    onOpen();
+                                    if (book.id !== null) {
+                                        setBookIdClicked(book.id)
+                                    }
+                                }}
                             />
                         ))}
                     </Flex>
-
-                    <Drawer
+                    <DrawerExplore
+                        ref={cardPopularRef}
                         isOpen={isOpen}
-                        placement='right'
                         onClose={onClose}
-                        finalFocusRef={cardPopularRef}
-                        size={'lg'}
-                        colorScheme={'blue'}
-                    >
-                        <DrawerOverlay/>
-                        <DrawerContent w={'660px'}>
-                            <DrawerCloseButton/>
-
-                            <DrawerFooter>
-                            </DrawerFooter>
-                        </DrawerContent>
-                    </Drawer>
+                        bookId={bookIdClicked}
+                    />
                 </Flex>
             </Flex>
         </Flex>
