@@ -4,9 +4,10 @@ import {useState} from "react";
 
 interface StarRatingProps {
     rate: number;
+    isDisabled?: boolean;
 }
 
-export function StarRating({rate = 0}: StarRatingProps) {
+export function StarRating({rate = 0, isDisabled = true}: StarRatingProps) {
     const [rating, setRating] = useState(rate);
 
     return (
@@ -14,7 +15,7 @@ export function StarRating({rate = 0}: StarRatingProps) {
             style={{maxWidth: 96}}
             value={rating}
             onChange={setRating}
-            isDisabled={true}
+            isDisabled={isDisabled}
             itemStyles={{
                 itemShapes: RoundedStar,
                 activeFillColor: theme.colors.gray['200'],

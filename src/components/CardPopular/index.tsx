@@ -13,7 +13,7 @@ interface CardPopularProps {
         id: string
         rate: number
         user_id: string
-    },
+    } | number,
     coverUrl: string
     name: string
     author: string
@@ -38,7 +38,7 @@ export function CardPopular({rate, coverUrl, name, author, withCont, ref, onClic
         }
     }
     const imageSrc = `http://localhost:3000/${coverUrl}`;
-    const medRate = rate && Array.isArray(rate) ? rate.reduce((acc, curr) => acc + curr.rate, 0) / rate.length : rate.rate;
+    const medRate = typeof rate !== 'number' ? rate && Array.isArray(rate) ? rate.reduce((acc, curr) => acc + curr.rate, 0) / rate.length : rate.rate : rate;
 
     return (
         <Flex sx={boxStyles} ref={ref} onClick={onClick}>

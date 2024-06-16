@@ -32,6 +32,8 @@ export default function Home() {
         },
     });
 
+    console.log(ratingPopular);
+
     return (
         <Flex p={4} h="100vh">
             <Sidebar/>
@@ -82,7 +84,9 @@ export default function Home() {
                             {ratingPopular?.map((book: RatingPopularProps) => (
                                 <CardPopular
                                     key={book.id}
-                                    book={book.book}
+                                    name={book.book.name}
+                                    author={book.book.author}
+                                    coverUrl={book.book.cover_url}
                                     rate={book.rate}
                                 />
                             ))}

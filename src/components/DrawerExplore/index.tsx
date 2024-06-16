@@ -7,7 +7,9 @@ import {
     DrawerOverlay,
     Flex,
     Heading,
-    Text
+    IconButton,
+    Text,
+    Textarea
 } from "@chakra-ui/react";
 import React from "react";
 import Image from "next/image";
@@ -17,9 +19,9 @@ import {api} from "@/lib/axios";
 import {BookProps, RatingProps} from "@/@types/global";
 import {IoBookmarkOutline, IoBookOutline} from "react-icons/io5";
 import {theme} from "@/styles/themes/default";
-import Link from "next/link";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import {CheckIcon, CloseIcon} from "@chakra-ui/icons";
 
 dayjs.extend(relativeTime);
 
@@ -32,6 +34,7 @@ interface DrawerExploreProps {
 
 export function DrawerExplore({ref, isOpen, onClose, bookId}: DrawerExploreProps) {
     const [medRate, setMedRate] = React.useState<number | undefined>(undefined);
+    const [isComment, setIsComment] = React.useState<boolean>(false);
 
     const {data: book} = useQuery<BookProps>({
         queryKey: ['book', bookId],
@@ -52,7 +55,7 @@ export function DrawerExplore({ref, isOpen, onClose, bookId}: DrawerExploreProps
         flexDirection: 'column',
         mt: 4
     }
-    console.log(book);
+
     const imageSrc = `http://localhost:3000/${book?.cover_url}`;
     const rate = book?.ratings;
     React.useEffect(() => {
@@ -121,8 +124,56 @@ export function DrawerExplore({ref, isOpen, onClose, bookId}: DrawerExploreProps
                 </Flex>
                 <Flex justifyContent={'space-between'} mt={10}>
                     <Text color={'gray.50'}>Avaliações</Text>
-                    <Text fontWeight={'bold'} color={'gray.400'}>Avaliar</Text>
+                    <Text
+                        fontWeight={'bold'}
+                        color={'gray.400'}
+                        cursor={'pointer'}
+                        _hover={{textDecoration: 'underline'}}
+                        onClick={() => setIsComment(!isComment)}
+                    >
+                        Avaliar
+                    </Text>
                 </Flex>
+
+                {isComment && (
+                    <Flex bg={'gray.700'} borderRadius={8} p={5} mt={4} flexDirection={'column'} gap={6}>
+                        <Flex alignItems={'center'} flex={1}>
+                            <Avatar
+                                size={'md'}
+                            />
+
+                            <Text flex={1} px={4}>Cristofer Rosser</Text>
+
+                            <StarRating rate={0} isDisabled={false}/>
+                        </Flex>
+
+                        <Textarea
+                            color={'green.50'}
+                            placeholder='Seu comentario aqui'
+                            _placeholder={{color: 'green.100'}}
+                            borderColor={'green.700'}
+                            bg={'gray.800'}
+                            resize={'none'}
+                            h={'150px'}
+                        />
+
+                        <Flex justifyContent={'flex-end'} gap={3}>
+                            <IconButton
+                                bg={'gray.600'}
+                                color={'purple.300'}
+                                aria-label='Search database'
+                                icon={<CloseIcon/>}
+                            />
+
+                            <IconButton
+                                bg={'gray.600'}
+                                color={'green.400'}
+                                aria-label='Search database'
+                                icon={<CheckIcon fontSize={20}/>}
+                            />
+                        </Flex>
+                    </Flex>
+                )}
 
                 {book?.ratings && book.ratings.map((rating: RatingProps) => {
                     const date = rating?.created_at ? dayjs(rating.created_at).fromNow() : '';

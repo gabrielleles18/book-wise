@@ -11,8 +11,8 @@ import {BookProps, UserProps} from "@/@types/global";
 dayjs.extend(relativeTime);
 
 interface CardDetailsProps {
-    user: UserProps
-    book: BookProps
+    user?: UserProps
+    book?: BookProps
     rate: number,
     created_at: Date
 }
@@ -35,7 +35,7 @@ export function CardDetails({user, book, rate, created_at}: CardDetailsProps) {
     }
 
     const dateEvaluation = dayjs(created_at).fromNow();
-    const imageSrc = `http://localhost:3000/${book.cover_url}`;
+    const imageSrc = `http://localhost:3000/${book?.cover_url}`;
 
     return (
         <Flex sx={boxStyles}>
@@ -43,10 +43,10 @@ export function CardDetails({user, book, rate, created_at}: CardDetailsProps) {
                 <Flex justifyContent={'space-between'} alignItems={'flex-start'}>
                     <Flex gap={4} alignItems={'center'}>
                         <Wrap>
-                            <Avatar name={user.name} src={user.avatar_url} size={'md'}/>
+                            <Avatar name={user?.name} src={user?.avatar_url} size={'md'}/>
                         </Wrap>
                         <Flex flexDirection={'column'}>
-                            <Text fontSize={'xl'}>{user.name}</Text>
+                            <Text fontSize={'xl'}>{user?.name}</Text>
                             <Text fontSize={'sm'} color={'gray.300'}>
                                 {dateEvaluation}
                             </Text>
@@ -74,11 +74,11 @@ export function CardDetails({user, book, rate, created_at}: CardDetailsProps) {
                     {/*    </Flex>*/}
                     {/*)}*/}
 
-                    <Heading color={'gray.50'} fontSize={'2xl'} mb={1}>{book.name}</Heading>
-                    <Text color={'gray.200'}>{book.author}</Text>
+                    <Heading color={'gray.50'} fontSize={'2xl'} mb={1}>{book?.name}</Heading>
+                    <Text color={'gray.200'}>{book?.author}</Text>
 
                     <Flex flex={1} alignItems={'flex-end'}>
-                        <Text>{book.summary}</Text>
+                        <Text>{book?.summary}</Text>
                     </Flex>
                 </Flex>
             </Flex>
