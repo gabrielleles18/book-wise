@@ -13,17 +13,14 @@ export default async function handler(
         return res.status(400).json({message: 'Missing userId'})
     }
 
-    const rating = await prisma.rating.findMany(
-        {
-            include: {
-                user: {
-                    where: {
-                        id: parseInt(req.query.userId as string)
-                    }
-                }
-            }
+    const rating = await prisma.rating.findMany({
+        where: {
+            user_id: req.query.userId as string
+        },
+        include: {
+            book: true
         }
-    );
+    });
 
     return res.status(201).json(rating);
 }
