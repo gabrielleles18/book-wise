@@ -19,11 +19,8 @@ import {api} from "@/lib/axios";
 import {BookProps, RatingProps} from "@/@types/global";
 import {IoBookmarkOutline, IoBookOutline} from "react-icons/io5";
 import {theme} from "@/styles/themes/default";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import {CheckIcon, CloseIcon} from "@chakra-ui/icons";
-
-dayjs.extend(relativeTime);
+import {getRelativeTime} from "@/lib/dayjs";
 
 interface DrawerExploreProps {
     ref: React.MutableRefObject<HTMLDivElement | null>;
@@ -109,7 +106,7 @@ export function DrawerExplore({ref, isOpen, onClose, bookId}: DrawerExploreProps
                         <Flex alignItems={'center'} gap={4} w={'100%'}>
                             <IoBookOutline size={24} color={theme.colors.green['300']}/>
                             <Flex flexDirection={'column'}>
-                                <Text color={'gray.100'}>Páginas</Text>
+                                <Text color={'gray.100'}>Categoria</Text>
                                 <Text color={'gray.50'} fontWeight={'bold'}>{categoriesName}</Text>
                             </Flex>
                         </Flex>
@@ -176,7 +173,7 @@ export function DrawerExplore({ref, isOpen, onClose, bookId}: DrawerExploreProps
                 )}
 
                 {book?.ratings && book.ratings.map((rating: RatingProps) => {
-                    const date = rating?.created_at ? dayjs(rating.created_at).fromNow() : '';
+                    const date = rating?.created_at ? getRelativeTime(rating.created_at) : '';
                     return (
                         <Flex sx={boxStyles} key={rating.id} gap={3}>
                             <Flex gap={4} alignItems={'flex-start'}>

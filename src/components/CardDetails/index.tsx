@@ -3,12 +3,8 @@ import Image from "next/image";
 import '@smastrom/react-rating/style.css'
 import {StarRating} from "@/components/StarRating";
 import React from "react";
-
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import {BookProps, UserProps} from "@/@types/global";
-
-dayjs.extend(relativeTime);
+import {getRelativeTime} from "@/lib/dayjs";
 
 interface CardDetailsProps {
     user?: UserProps
@@ -28,13 +24,8 @@ export function CardDetails({user, book, rate, created_at}: CardDetailsProps) {
         gap: '32px',
         w: '100%',
         transition: 'background-color 0.2s',
-        cursor: 'pointer',
-        ':hover': {
-            bg: 'gray.700'
-        }
     }
 
-    const dateEvaluation = dayjs(created_at).fromNow();
     const imageSrc = `http://localhost:3000/${book?.cover_url}`;
 
     return (
@@ -48,7 +39,7 @@ export function CardDetails({user, book, rate, created_at}: CardDetailsProps) {
                         <Flex flexDirection={'column'}>
                             <Text fontSize={'xl'}>{user?.name}</Text>
                             <Text fontSize={'sm'} color={'gray.300'}>
-                                {dateEvaluation}
+                                {getRelativeTime(created_at)}
                             </Text>
                         </Flex>
                     </Flex>

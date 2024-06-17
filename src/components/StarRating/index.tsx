@@ -1,6 +1,7 @@
 import {Rating, RoundedStar} from "@smastrom/react-rating";
 import {theme} from "@/styles/themes/default";
 import {useState} from "react";
+import '@smastrom/react-rating/style.css'
 
 interface StarRatingProps {
     rate: number;
@@ -12,7 +13,7 @@ export function StarRating({rate = 0, isDisabled = true}: StarRatingProps) {
 
     return (
         <Rating
-            style={{maxWidth: 96}}
+            style={{maxWidth: 96, opacity: 1}}
             value={rating}
             onChange={setRating}
             isDisabled={isDisabled}

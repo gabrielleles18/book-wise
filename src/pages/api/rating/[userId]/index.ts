@@ -12,13 +12,23 @@ export default async function handler(
     if (!req.query.userId) {
         return res.status(400).json({message: 'Missing userId'})
     }
+    const {search} = req.query;
+
+    const whereClause = {
+        user_id: req.query.userId as string,
+        ...(search && {
+            book: {
+                name: {
+                    contains: search as string
+                }
+            }
+        })
+    };
 
     const rating = await prisma.rating.findMany({
-        where: {
-            user_id: req.query.userId as string
-        },
+        where: whereClause,
         include: {
-            book: true
+            book: true,
         }
     });
 

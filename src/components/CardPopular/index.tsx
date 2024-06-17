@@ -1,6 +1,5 @@
 import Image from "next/image";
 import {Flex, Heading, Text, withDelay} from "@chakra-ui/react";
-import '@smastrom/react-rating/style.css'
 import {StarRating} from "@/components/StarRating";
 import {BookProps} from "@/@types/global";
 import React from "react";
