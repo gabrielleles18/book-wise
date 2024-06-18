@@ -1,4 +1,4 @@
-import {Box, Flex, Text} from '@chakra-ui/react';
+import {Flex, Text} from '@chakra-ui/react';
 import Image from "next/image";
 import homeImage from '../../../public/images/home.png';
 import googleIcon from '../../../public/icon/google.svg';
@@ -6,8 +6,8 @@ import githubIcon from '../../../public/icon/github.svg';
 import rocketIcon from '../../../public/icon/rocket.svg';
 
 import {theme} from "@/styles/themes/default";
-import Link from "next/link";
 import {SocialButton} from "@/components/SocialButton";
+import {signIn} from "next-auth/react";
 
 export default function Login() {
 
@@ -34,19 +34,17 @@ export default function Login() {
                         <SocialButton
                             icon={googleIcon}
                             text={'Entrar com Google'}
-                            href={'/'}
+                            onClick={() => signIn('google')}
                         />
 
                         <SocialButton
                             icon={githubIcon}
                             text={'Entrar com Github'}
-                            href={'https://google.com'}
                         />
 
                         <SocialButton
                             icon={rocketIcon}
                             text={'Acessar como visitante'}
-                            href={'https://google.com'}
                         />
                     </Flex>
                 </Flex>
