@@ -6,8 +6,10 @@ import {theme} from "@/styles/themes/default";
 import {QueryClientProvider} from "react-query";
 import {queryClient} from "@/lib/react-query";
 import '../lib/dayjs'
+import {SessionProvider} from "next-auth/react";
 
 export default function App({Component, pageProps}: AppProps) {
+    const {session} = pageProps;
 
     return (
         <>
@@ -19,7 +21,9 @@ export default function App({Component, pageProps}: AppProps) {
 
             <ChakraProvider theme={theme}>
                 <QueryClientProvider client={queryClient}>
-                    <Component {...pageProps} />
+                    <SessionProvider session={session}>
+                        <Component {...pageProps} />
+                    </SessionProvider>
                 </QueryClientProvider>
             </ChakraProvider>
         </>
