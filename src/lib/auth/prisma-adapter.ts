@@ -8,10 +8,22 @@ export function PrismaAdapter(
 ): Adapter {
     return {
         async createUser(user) {
+
+            // Verifique se o usuário já existe
+            const existingUser = await prisma.user.findUnique({
+                where: {
+                    email: user?.email
+                },
+            });
+
+            if (existingUser) {
+                throw new Error("Email already in use");
+            }
+
             const prismaUser = await prisma.user.create({
                 data: {
                     name: user.name,
-                    email: user.email,
+                    email: user?.email,
                     avatar_url: user.avatar_url,
                 },
             })
@@ -19,9 +31,9 @@ export function PrismaAdapter(
             return {
                 id: prismaUser.id,
                 name: prismaUser.name,
-                email: prismaUser.email,
-                emailVerified: null,
+                email: prismaUser?.email,
                 avatar_url: prismaUser.avatar_url,
+                emailVerified: null,
             }
         },
 
@@ -39,31 +51,12 @@ export function PrismaAdapter(
             return {
                 id: user.id,
                 name: user.name,
-                username: user.username!,
-                email: user.email!,
+                email: user?.email,
                 emailVerified: null,
                 avatar_url: user.avatar_url!,
             }
         },
         async getUserByEmail(email) {
-            const user = await prisma.user.findUnique({
-                where: {
-                    email,
-                },
-            })
-
-            if (!user) {
-                return null
-            }
-
-            return {
-                id: user.id,
-                name: user.name,
-                username: user.username,
-                email: user.email!,
-                emailVerified: null,
-                avatar_url: user.avatar_url!,
-            }
         },
         async getUserByAccount({providerAccountId, provider}) {
             const account = await prisma.account.findUnique({
@@ -87,8 +80,7 @@ export function PrismaAdapter(
             return {
                 id: user.id,
                 name: user.name,
-                username: user.username,
-                email: user.email!,
+                email: user?.email,
                 emailVerified: null,
                 avatar_url: user.avatar_url!,
             }
@@ -101,7 +93,6 @@ export function PrismaAdapter(
                 },
                 data: {
                     name: user.name,
-                    email: user.email,
                     avatar_url: user.avatar_url,
                 },
             })
@@ -109,8 +100,7 @@ export function PrismaAdapter(
             return {
                 id: prismaUser.id,
                 name: prismaUser.name,
-                username: prismaUser.username,
-                email: prismaUser.email!,
+                email: user?.email,
                 emailVerified: null,
                 avatar_url: prismaUser.avatar_url!,
             }
@@ -175,8 +165,7 @@ export function PrismaAdapter(
                 user: {
                     id: user.id,
                     name: user.name,
-                    username: user.username,
-                    email: user.email!,
+                    email: user?.email,
                     emailVerified: null,
                     avatar_url: user.avatar_url!,
                 },

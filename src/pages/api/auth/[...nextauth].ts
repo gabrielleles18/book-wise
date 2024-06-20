@@ -35,7 +35,7 @@ export function buildNextAuthOptions(
         ],
         callbacks: {
             async signIn({ account }) {
-                return true
+                return '/home'
             },
             async session({ session, user }) {
                 return {

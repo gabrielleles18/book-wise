@@ -52,3 +52,21 @@ export default function Login() {
         </Flex>
     )
 }
+// export async function getServerSideProps(context: any) {
+//     const session = await getSession();
+//
+//     console.log(session);
+//
+//     if (!session) {
+//         return {
+//             props: {session},
+//         }
+//     } else {
+//         return {
+//             redirect: {
+//                 destination: '/home',
+//                 permanent: false,
+//             },
+//         }
+//     }
+// }

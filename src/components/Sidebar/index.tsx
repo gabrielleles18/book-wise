@@ -4,11 +4,26 @@ import logoImage from '../../../public/images/logo.png';
 import {PiBinoculars, PiChartLineUp, PiSignOut, PiUser} from "react-icons/pi";
 import {SidebarLink} from "@/components/SidebarLink";
 import React from "react";
-import Link from "next/link";
 import {theme} from "@/styles/themes/default";
+import {signIn, signOut, useSession} from "next-auth/react";
+import {useRouter} from "next/router";
 
 export function Sidebar() {
-    const isLogin = true;
+    const session = useSession();
+    const user = session?.data?.user ?? null;
+    const navigation = useRouter();
+
+    console.log(user);
+
+    function handleSocial() {
+        console.log(user);
+        if (user) {
+            signOut();
+        } else {
+            console.log("veve");
+            navigation.push('/login');
+        }
+    }
 
     return (
         <Flex
@@ -26,7 +41,7 @@ export function Sidebar() {
                 src={logoImage}
                 alt={''}
                 width={128}
-                priority
+                priority={true}
                 quality={100}
             />
 
@@ -42,7 +57,7 @@ export function Sidebar() {
                     icon={<PiBinoculars size={24}/>}
                 />
 
-                {isLogin && (
+                {user && (
                     <SidebarLink
                         href={'/profile'}
                         text={'Perfil'}
@@ -51,25 +66,29 @@ export function Sidebar() {
                 )}
             </Flex>
 
-            <Link href={'/login'}>
+            <Flex onClick={handleSocial} _hover={{cursor: 'pointer'}}>
                 <Flex alignItems={'center'} gap={'10px'}>
-                    {isLogin && (
+                    {user && (
                         <Wrap>
-                            <Avatar name='Dan Abrahmov' src='https://bit.ly/dan-abramov' size={'md'}/>
+                            <Avatar
+                                name={user.name}
+                                src={user.avatar_url}
+                                size={'md'}
+                            />
                         </Wrap>
                     )}
                     <Text
-                        fontSize={'xl'}
+                        fontSize={'lg'}
                         color={'gray.200'}
                         fontWeight={'600'}
                         transition={'color 0.2s'}
                         _hover={{color: 'gray.50'}}
                     >
-                        {isLogin ? 'Gabriel' : 'Fazer login'}
+                        {user ? user?.name : 'Fazer login'}
                     </Text>
-                    <PiSignOut size={24} color={isLogin ? theme.colors.red['600'] : theme.colors.green['500']}/>
+                    <PiSignOut size={24} color={user ? theme.colors.red['600'] : theme.colors.green['500']}/>
                 </Flex>
-            </Link>
+            </Flex>
         </Flex>
     )
 }
