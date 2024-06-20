@@ -5,15 +5,13 @@ import {PiBinoculars, PiChartLineUp, PiSignOut, PiUser} from "react-icons/pi";
 import {SidebarLink} from "@/components/SidebarLink";
 import React from "react";
 import {theme} from "@/styles/themes/default";
-import {signIn, signOut, useSession} from "next-auth/react";
+import {signOut} from "next-auth/react";
 import {useRouter} from "next/router";
 
 export function Sidebar() {
-    const session = useSession();
-    const user = session?.data?.user ?? null;
+    const user =  null;
     const navigation = useRouter();
 
-    console.log(user);
 
     function handleSocial() {
         console.log(user);

@@ -2,7 +2,6 @@ import {Box, Flex, Text} from "@chakra-ui/react";
 import Link, {LinkProps} from "next/link";
 import React from "react";
 import {useRouter} from "next/router";
-import {IconContext} from "react-icons";
 
 interface SidebarLinkProps extends LinkProps {
     text: string;
@@ -36,14 +35,8 @@ export function SidebarLink({text, icon, ...rest}: SidebarLinkProps) {
                     bgGradient={isActive ? "linear(to-t, #7FD1CC, #9694F5)" : 'transparent'}
                     borderRadius={999}
                 />
-
                 <Flex sx={flexStyles}>
-
-                    {icon && (
-                        <IconContext.Provider value={{color: isActive ? '#e2f1ff' : '#A0AEC0'}}>
-                            {icon}
-                        </IconContext.Provider>
-                    )}
+                    {icon}
                     <Text fontSize={'xl'} color={isActive ? 'gray.50' : ''} fontWeight={'bold'}>{text}</Text>
                 </Flex>
             </Flex>

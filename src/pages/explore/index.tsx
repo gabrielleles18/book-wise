@@ -30,7 +30,7 @@ interface CardPopularProps {
 }
 
 export default function explore() {
-    const cardPopularRef = React.useRef<HTMLDivElement | null>(null);
+    const cardPopularRef = React.useRef<any>();
     const [categorySelected, setCategorySelected] = React.useState<string | null>(null);
     const [search, setSearch] = React.useState<string | null>(null);
     const [bookIdClicked, setBookIdClicked] = React.useState<string | null>(null);
@@ -118,6 +118,7 @@ export default function explore() {
                     <Flex flexWrap={'wrap'} gap={4}>
                         {books?.map((book: CardPopularProps) => (
                             <CardPopular
+                                key={book.id}
                                 withCont={'calc(33.333% - 1rem)'}
                                 rate={book.ratings}
                                 coverUrl={book.cover_url}
@@ -134,7 +135,7 @@ export default function explore() {
                         ))}
                     </Flex>
                     <DrawerExplore
-                        ref={cardPopularRef}
+                        finalFocusRef={cardPopularRef}
                         isOpen={isOpen}
                         onClose={onClose}
                         bookId={bookIdClicked}

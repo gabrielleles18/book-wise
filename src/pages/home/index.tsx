@@ -11,7 +11,6 @@ import {theme} from "@/styles/themes/default";
 import {api} from "@/lib/axios";
 import {useQuery} from "react-query";
 import {RatingPopularProps, RatingProps} from "@/@types/global";
-import {useSession} from "next-auth/react";
 
 export default function Home() {
 

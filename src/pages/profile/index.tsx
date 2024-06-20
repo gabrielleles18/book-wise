@@ -69,7 +69,7 @@ export default function Profile() {
                                 const imageSrc = `http://localhost:3000/${rate.book.cover_url}`;
 
                                 return (
-                                    <Flex flexDirection={'column'}>
+                                    <Flex flexDirection={'column'} key={rate.id}>
                                         <Text
                                             mb={1}
                                             color={'gray.100'}
