@@ -44,7 +44,7 @@ export function Sidebar() {
 
             <Flex as={'nav'} mt={'20'} gap={12} flexDirection={'column'} flex={'1'}>
                 <SidebarLink
-                    href={'/home'}
+                    href={'/'}
                     text={'Início'}
                     icon={<PiChartLineUp size={24}/>}
                 />
