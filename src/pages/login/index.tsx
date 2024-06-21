@@ -7,15 +7,9 @@ import rocketIcon from '../../../public/icon/rocket.svg';
 
 import {theme} from "@/styles/themes/default";
 import {SocialButton} from "@/components/SocialButton";
-import {getSession, signIn, useSession} from "next-auth/react";
-import {useRouter} from "next/router";
+import {signIn} from "next-auth/react";
 
 export default function Login() {
-    const router = useRouter();
-
-    const session = useSession();
-
-    console.log(session);
 
     return (
         <Flex p={4} h="100vh">
@@ -46,13 +40,11 @@ export default function Login() {
                         <SocialButton
                             icon={githubIcon}
                             text={'Entrar com Github'}
-                            onClick={() => signIn('github')}
                         />
 
                         <SocialButton
                             icon={rocketIcon}
                             text={'Acessar como visitante'}
-                            onClick={() => router.push('/home')}
                         />
                     </Flex>
                 </Flex>
@@ -60,20 +52,21 @@ export default function Login() {
         </Flex>
     )
 }
-
-export async function getServerSideProps(context: any) {
-    const session = await getSession(context);
-
-    if (!session) {
-        return {
-            props: {session},
-        }
-    } else {
-        return {
-            redirect: {
-                destination: '/home',
-                permanent: false,
-            },
-        }
-    }
-}
+// export async function getServerSideProps(context: any) {
+//     const session = await getSession();
+//
+//     console.log(session);
+//
+//     if (!session) {
+//         return {
+//             props: {session},
+//         }
+//     } else {
+//         return {
+//             redirect: {
+//                 destination: '/home',
+//                 permanent: false,
+//             },
+//         }
+//     }
+// }

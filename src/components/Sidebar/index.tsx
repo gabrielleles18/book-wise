@@ -5,20 +5,21 @@ import {PiBinoculars, PiChartLineUp, PiSignOut, PiUser} from "react-icons/pi";
 import {SidebarLink} from "@/components/SidebarLink";
 import React from "react";
 import {theme} from "@/styles/themes/default";
-import {signOut, useSession} from "next-auth/react";
+import {signOut} from "next-auth/react";
 import {useRouter} from "next/router";
 
 export function Sidebar() {
-    const session = useSession();
-    const user = session?.data?.user ?? null;
+    const user =  null;
     const navigation = useRouter();
 
-    async function handleSocial() {
+
+    function handleSocial() {
+        console.log(user);
         if (user) {
-            await signOut();
+            signOut();
         } else {
             console.log("veve");
-            await navigation.push('/login');
+            navigation.push('/login');
         }
     }
 
