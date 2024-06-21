@@ -27,7 +27,7 @@ interface FocusableElement {
 }
 
 interface DrawerExploreProps {
-    finalFocusRef: React.RefObject<FocusableElement>;
+    finalFocusRef: React.RefObject<HTMLDivElement>;
     isOpen: boolean;
     onClose: () => void;
     bookId: string | null;
@@ -70,11 +70,11 @@ export function DrawerExplore({finalFocusRef, isOpen, onClose, bookId}: DrawerEx
     const rating = book?.ratings as RatingPropsTeste[];
 
     React.useEffect(() => {
-        if (rating && Array.isArray(rating)) {
+        if (Array.isArray(rating)) {
             const newMedRate = rating.reduce((acc, curr) => acc + curr.rate, 0) / rating.length;
             setMedRate(newMedRate);
-        } else if (rating?.rate) {
-            setMedRate(rating.rate);
+        } else if (rating && typeof rating === 'object' && 'rate' in rating) {
+            setMedRate((rating as { rate: number }).rate);
         }
     }, [rating]);
 

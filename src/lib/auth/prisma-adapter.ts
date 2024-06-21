@@ -9,31 +9,51 @@ export function PrismaAdapter(
     return {
         async createUser(user) {
 
-            // Verifique se o usuário já existe
-            const existingUser = await prisma.user.findUnique({
+            const hasEmail = await prisma.user.findFirst({
                 where: {
-                    email: user?.email
+                    email: user.email,
                 },
-            });
+            })
 
-            if (existingUser) {
-                throw new Error("Email already in use");
+            if (hasEmail) {
+                const userByEmail = await prisma.user.update({
+                    where: {
+                        email: user.email,
+                    },
+                    data: {
+                        name: user.name,
+                        email: user.email,
+                        avatar_url: user.avatar_url,
+                    },
+                })
+
+                if (!userByEmail) {
+                    throw new Error('User not found')
+                }
+
+                return {
+                    id: userByEmail.id,
+                    name: userByEmail.name,
+                    email: userByEmail.email!,
+                    emailVerified: null,
+                    avatar_url: userByEmail.avatar_url,
+                }
             }
 
             const prismaUser = await prisma.user.create({
                 data: {
                     name: user.name,
-                    email: user?.email,
-                    avatar_url: user.avatar_url,
+                    email: user.email,
+                    avatar_url: user.image,
                 },
             })
 
             return {
                 id: prismaUser.id,
                 name: prismaUser.name,
-                email: prismaUser?.email,
-                avatar_url: prismaUser.avatar_url,
+                email: prismaUser.email!,
                 emailVerified: null,
+                avatar_url: prismaUser.avatar_url
             }
         },
 
@@ -51,12 +71,29 @@ export function PrismaAdapter(
             return {
                 id: user.id,
                 name: user.name,
-                email: user?.email,
+                email: user.email!,
                 emailVerified: null,
                 avatar_url: user.avatar_url!,
             }
         },
         async getUserByEmail(email) {
+            const user = await prisma.user.findUnique({
+                where: {
+                    email,
+                },
+            })
+
+            if (!user) {
+                return null
+            }
+
+            return {
+                id: user.id,
+                name: user.name,
+                email: user.email!,
+                emailVerified: null,
+                avatar_url: user.avatar_url!,
+            }
         },
         async getUserByAccount({providerAccountId, provider}) {
             const account = await prisma.account.findUnique({
@@ -80,7 +117,7 @@ export function PrismaAdapter(
             return {
                 id: user.id,
                 name: user.name,
-                email: user?.email,
+                email: user.email!,
                 emailVerified: null,
                 avatar_url: user.avatar_url!,
             }
@@ -93,6 +130,7 @@ export function PrismaAdapter(
                 },
                 data: {
                     name: user.name,
+                    email: user.email,
                     avatar_url: user.avatar_url,
                 },
             })
@@ -100,7 +138,7 @@ export function PrismaAdapter(
             return {
                 id: prismaUser.id,
                 name: prismaUser.name,
-                email: user?.email,
+                email: prismaUser.email!,
                 emailVerified: null,
                 avatar_url: prismaUser.avatar_url!,
             }
@@ -165,7 +203,7 @@ export function PrismaAdapter(
                 user: {
                     id: user.id,
                     name: user.name,
-                    email: user?.email,
+                    email: user.email!,
                     emailVerified: null,
                     avatar_url: user.avatar_url!,
                 },

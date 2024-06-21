@@ -4,8 +4,8 @@ declare module 'next-auth' {
     export interface User {
         id: string
         name: string
-        email?: string | null
-        avatar_url?: string
+        email: string
+        avatar_url: string
     }
 
     interface Session {
