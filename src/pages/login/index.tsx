@@ -1,6 +1,7 @@
 import {Flex, Text} from '@chakra-ui/react';
 import Image from "next/image";
 import homeImage from '../../../public/images/home.png';
+import logoImage from '../../../public/images/logo.png';
 import googleIcon from '../../../public/icon/google.svg';
 // import githubIcon from '../../../public/icon/github.svg';
 import rocketIcon from '../../../public/icon/rocket.svg';
@@ -21,8 +22,8 @@ export default function Login() {
                 title="Login | Book Wise"
                 description="Acompanhe suas avaliações e estatísticas de leitura."
             />
-            <Flex p={4} h="100vh">
-                <Flex w={'33%'} h={'100%'} position={'relative'}>
+            <Flex p={4} h="100vh" gap={4}>
+                <Flex w={'33%'} h={'100%'} position={'relative'} display={{base: 'none', md: 'flex'}}>
                     <Image
                         src={homeImage}
                         alt={''}
@@ -36,6 +37,18 @@ export default function Login() {
 
                 <Flex flex={1} alignItems={'center'} justifyContent={'center'}>
                     <Flex flexDirection={'column'} gap={'3px'}>
+                        <Flex display={{base: 'flex', md: 'none'}}>
+                            <Image
+                                src={logoImage}
+                                alt={''}
+                                quality={100}
+                                priority={true}
+                                objectFit={'contain'}
+                                width={200}
+                                style={{marginBottom: '60px', alignSelf: 'center'}}
+                            />
+                        </Flex>
+
                         <Text fontSize={'3xl'} color={'gray.50'} fontWeight={'bold'}>Boas vindas!</Text>
                         <Text fontSize={'xl'} color={'gray.50'}>Faça seu login ou acesse como visitante.</Text>
 
