@@ -1,5 +1,5 @@
 import Image from "next/image";
-import {Flex, Heading, Text, withDelay} from "@chakra-ui/react";
+import {Flex, FlexProps, Heading, Text, withDelay} from "@chakra-ui/react";
 import {StarRating} from "@/components/StarRating";
 import {BookProps} from "@/@types/global";
 import React from "react";
@@ -19,9 +19,10 @@ interface CardPopularProps {
     withCont?: string
     ref?: React.RefObject<HTMLDivElement>;
     onClick?: (() => void) | undefined;
+    styles?: FlexProps
 }
 
-export function CardPopular({rate, coverUrl, name, author, withCont, ref, onClick}: CardPopularProps) {
+export function CardPopular({rate, coverUrl, name, author, withCont, ref, onClick, styles}: CardPopularProps) {
 
     const boxStyles = {
         w: withCont ? withCont : '100%',
@@ -34,7 +35,8 @@ export function CardPopular({rate, coverUrl, name, author, withCont, ref, onClic
         cursor: 'pointer',
         ':hover': {
             bg: 'gray.700'
-        }
+        },
+        ...styles
     }
     const imageSrc = `http://localhost:3000/${coverUrl}`;
     const medRate = typeof rate !== 'number' ? rate && Array.isArray(rate) ? rate.reduce((acc, curr) => acc + curr.rate, 0) / rate.length : rate.rate : rate;

@@ -11,15 +11,23 @@ import {IoBookmarkOutline, IoBookOutline} from "react-icons/io5";
 import {GiBookshelf} from "react-icons/gi";
 import AnalyticItem from "@/pages/profile/components/AnalyticItem";
 import {getRelativeTime} from "@/lib/dayjs";
+import {useSession} from "next-auth/react";
+import {useCallback} from 'react';
+import dayjs from "dayjs";
+
 
 export default function Profile() {
     const [search, setSearch] = React.useState<string | null>(null);
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
 
+    const session = useSession();
+    const user = session.data?.user;
+    const memberSince = dayjs(user?.created_at).year();
+
     const {data: rating} = useQuery({
         queryKey: ['ratingByUser', search],
         queryFn: async () => {
-            const response = await api.get(`/rating/4383f783-6ce1-4f92-b1dd-7a7a693c4aef`, {
+            const response = await api.get(`/rating/${user?.id}`, {
                 params: {
                     search
                 }
@@ -27,7 +35,21 @@ export default function Profile() {
 
             return response.data
         },
+        enabled: !!user?.id
     });
+
+    const reducePages = useCallback((acc: any, rate: any) => {
+        return acc + rate.book.total_pages
+    }, []);
+    const pagesRead = rating?.reduce(reducePages, 0);
+
+    const reduceAuthors = useCallback((acc: any, rate: any) => {
+        if (!acc.includes(rate.book.author)) {
+            acc.push(rate.book.author);
+        }
+        return acc;
+    }, []);
+    const authorsRead = rating?.reduce(reduceAuthors, []);
 
     const boxCardStyles = {
         w: '100%',
@@ -106,6 +128,12 @@ export default function Profile() {
                                     </Flex>
                                 )
                             })}
+
+                            {!rating?.length && (
+                                <Flex w={'100%'} h={'100%'}>
+                                    <Text color={'gray.100'}>Nenhum livro avaliado por você.</Text>
+                                </Flex>
+                            )}
                         </Flex>
 
                         <Flex
@@ -120,33 +148,33 @@ export default function Profile() {
                         >
                             <Flex alignItems={'center'} flexDirection={'column'} width={'100%'} gap={1}>
                                 <Avatar
-                                    name='Dan Abrahmov'
-                                    src='https://bit.ly/dan-abramov'
+                                    name={user?.name}
+                                    src={user?.image || ''}
                                     size={'lg'}
                                     mb={4}
                                 />
-                                <Heading as={'h5'} size={'md'}>Dan Abrahmov</Heading>
-                                <Text fontSize={'xs'} color={'gray.100'}>membro desde 2019</Text>
+                                <Heading as={'h5'} size={'md'}>{user?.name}</Heading>
+                                <Text fontSize={'xs'} color={'gray.100'}>membro desde {memberSince}</Text>
                                 <Box w={'40px'} h={'5px'} bg={'green.500'} borderRadius={999} mt={10}></Box>
                             </Flex>
 
                             <Flex flexDirection={'column'} gap={14}>
                                 <AnalyticItem
                                     icon={<IoBookOutline size={32} color={theme.colors.green['300']}/>}
-                                    title={'Livros avaliados'}
-                                    value={'8'}
+                                    title={'Páginas lidas'}
+                                    value={pagesRead || '0'}
                                 />
 
                                 <AnalyticItem
                                     icon={<GiBookshelf size={32} color={theme.colors.green['300']}/>}
                                     title={'Livros avaliados'}
-                                    value={'4'}
+                                    value={rating?.length || '0'}
                                 />
 
                                 <AnalyticItem
                                     icon={<PiUserListBold size={32} color={theme.colors.green['300']}/>}
                                     title={'Autores lidos'}
-                                    value={'3'}
+                                    value={authorsRead?.length || '0'}
                                 />
 
                                 <AnalyticItem

@@ -12,17 +12,35 @@ import {api} from "@/lib/axios";
 import {useQuery} from "react-query";
 import {RatingPopularProps, RatingProps} from "@/@types/global";
 import {useSession} from "next-auth/react";
+import {useRouter} from "next/router";
 
 export default function Home() {
-
     const session = useSession();
+    const user = session.data?.user;
+    const navigation = useRouter();
 
-    console.log(session);
+    const {data: ratingByUser, status} = useQuery({
+        queryKey: ['ratingByUserIdOnly'],
+        queryFn: async () => {
+            const response = await api.get(`/rating/${user?.id}`, {
+                params: {
+                    limit: 1
+                }
+            })
+
+            return response.data
+        },
+        enabled: !!user
+    });
 
     const {data: rating} = useQuery({
-        queryKey: ['rating'],
+        queryKey: ['rating', ratingByUser],
         queryFn: async () => {
-            const response = await api.get(`/rating`)
+            const response = await api.get(`/rating`, {
+                params: {
+                    exclude: ratingByUser != undefined && ratingByUser.length > 0 ? ratingByUser[0]?.id : '',
+                }
+            })
 
             return response.data
         },
@@ -52,6 +70,36 @@ export default function Home() {
 
                     <Flex flexDirection={'row'} gap={14}>
                         <Flex flex={1} gap={'12px'} flexDirection={'column'}>
+                            {ratingByUser && (
+                                <Flex w={'100%'} justifyContent={'space-between'} mb={1}>
+                                    <Text>Sua última leitura</Text>
+
+                                    <Flex alignItems={'center'} gap={1} onClick={() => navigation.push('profile')}
+                                          _hover={{cursor: 'pointer'}}>
+                                        <Flex flexDirection={'row'} alignItems={'center'} gap={1}>
+                                            <Text
+                                                fontWeight={'bold'}
+                                                color={theme.colors.purple['400']}
+                                            >
+                                                Ver todos
+                                            </Text>
+                                            <CaretRight size={20} color={theme.colors.purple['400']}/>
+                                        </Flex>
+                                    </Flex>
+                                </Flex>
+                            )}
+
+                            {ratingByUser?.map((book: RatingProps) => (
+                                <CardDetails
+                                    key={book.id}
+                                    user={book.user}
+                                    book={book.book}
+                                    rate={book.rate}
+                                    created_at={book.created_at}
+                                    styles={{bg: 'gray.700', mb: 8}}
+                                />
+                            ))}
+
                             <Text mb={'4px'}>Avaliações mais recentes</Text>
 
                             {rating?.map((book: RatingProps) => (
@@ -68,19 +116,17 @@ export default function Home() {
                             <Flex w={'100%'} justifyContent={'space-between'} mb={1}>
                                 <Text>Livros populares</Text>
 
-                                <Flex alignItems={'center'} gap={1}>
-                                    <Link href={''}>
-                                        <Flex flexDirection={'row'} alignItems={'center'} gap={1}>
-                                            <Text
-                                                fontWeight={'bold'}
-                                                _hover={{textDecoration: 'underline'}}
-                                                color={theme.colors.purple['400']}
-                                            >
-                                                Ver todos
-                                            </Text>
-                                            <CaretRight size={20} color={theme.colors.purple['400']}/>
-                                        </Flex>
-                                    </Link>
+                                <Flex alignItems={'center'} gap={1} onClick={() => navigation.push('explore')}
+                                      _hover={{cursor: 'pointer'}}>
+                                    <Flex flexDirection={'row'} alignItems={'center'} gap={1}>
+                                        <Text
+                                            fontWeight={'bold'}
+                                            color={theme.colors.purple['400']}
+                                        >
+                                            Ver todos
+                                        </Text>
+                                        <CaretRight size={20} color={theme.colors.purple['400']}/>
+                                    </Flex>
                                 </Flex>
                             </Flex>
 
@@ -91,6 +137,7 @@ export default function Home() {
                                     author={book.book.author}
                                     coverUrl={book.book.cover_url}
                                     rate={book.rate}
+                                    styles={{_hover: {cursor: 'unset', bg: 'gray.800'}}}
                                 />
                             ))}
                         </Flex>

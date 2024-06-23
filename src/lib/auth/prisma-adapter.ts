@@ -204,7 +204,8 @@ export function PrismaAdapter(
                     id: user.id,
                     name: user.name,
                     email: user.email!,
-                    emailVerified: null,
+                    // emailVerified: null,
+                    created_at: user.created_at,
                     avatar_url: user.avatar_url!,
                 },
             }

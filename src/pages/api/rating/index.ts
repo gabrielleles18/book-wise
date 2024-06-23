@@ -15,8 +15,17 @@ export default async function handler(
         take = parseInt(req.query.take as string);
     }
 
+    const {exclude} = req.query;
+
     const books = await prisma.rating.findMany(
         {
+            where: {
+                ...(exclude !== "" && {
+                    id: {
+                        not: exclude as string
+                    }
+                })
+            },
             orderBy: {
                 created_at: 'desc'
             },

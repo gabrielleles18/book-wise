@@ -43,11 +43,11 @@ export default function Login() {
                             onClick={() => signIn('google')}
                         />
 
-                        <SocialButton
-                            icon={githubIcon}
-                            text={'Entrar com Github'}
-                            onClick={() => signIn('github')}
-                        />
+                        {/*<SocialButton*/}
+                        {/*    icon={githubIcon}*/}
+                        {/*    text={'Entrar com Github'}*/}
+                        {/*    onClick={() => signIn('github')}*/}
+                        {/*/>*/}
 
                         <SocialButton
                             icon={rocketIcon}

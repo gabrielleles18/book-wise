@@ -12,7 +12,7 @@ export default async function handler(
     if (!req.query.userId) {
         return res.status(400).json({message: 'Missing userId'})
     }
-    const {search} = req.query;
+    const {search, limit} = req.query;
 
     const whereClause = {
         user_id: req.query.userId as string,
@@ -26,9 +26,19 @@ export default async function handler(
     };
 
     const rating = await prisma.rating.findMany({
-        where: whereClause,
+        take: limit ? +limit : 20,
+        orderBy: {
+            created_at: 'desc'
+        },
+        where: {
+            ...whereClause,
+        },
         include: {
-            book: true,
+            book: {
+                include: {
+                    categories: true,
+                }
+            },
         }
     });
 

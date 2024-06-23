@@ -1,4 +1,4 @@
-import {Avatar, Flex, Heading, Text, Wrap} from "@chakra-ui/react";
+import {Avatar, Flex, FlexProps, Heading, Text, Wrap} from "@chakra-ui/react";
 import Image from "next/image";
 import '@smastrom/react-rating/style.css'
 import {StarRating} from "@/components/StarRating";
@@ -10,10 +10,11 @@ interface CardDetailsProps {
     user?: UserProps
     book?: BookProps
     rate: number,
-    created_at: Date
+    created_at: Date,
+    styles?: FlexProps
 }
 
-export function CardDetails({user, book, rate, created_at}: CardDetailsProps) {
+export function CardDetails({user, book, rate, created_at, styles}: CardDetailsProps) {
     const showUser = true;
     const boxStyles = {
         px: 7,
@@ -24,6 +25,7 @@ export function CardDetails({user, book, rate, created_at}: CardDetailsProps) {
         gap: '32px',
         w: '100%',
         transition: 'background-color 0.2s',
+        ...styles
     }
 
     const imageSrc = `http://localhost:3000/${book?.cover_url}`;
