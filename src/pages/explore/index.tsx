@@ -136,8 +136,8 @@ export default function explore() {
                     </Flex>
                     <DrawerExplore
                         finalFocusRef={cardPopularRef}
-                        isOpen={isOpen}
-                        onClose={onClose}
+                        isOpenD={isOpen}
+                        onCloseD={onClose}
                         bookId={bookIdClicked}
                     />
                 </Flex>

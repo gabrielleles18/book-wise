@@ -1,15 +1,20 @@
 import {Rating, RoundedStar} from "@smastrom/react-rating";
 import {theme} from "@/styles/themes/default";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import '@smastrom/react-rating/style.css'
 
 interface StarRatingProps {
     rate: number;
     isDisabled?: boolean;
+    onRateChange?: (newRate: number) => void;
 }
 
-export function StarRating({rate = 0, isDisabled = true}: StarRatingProps) {
+export function StarRating({rate = 0, isDisabled = true, onRateChange}: StarRatingProps) {
     const [rating, setRating] = useState(rate);
+
+    useEffect(() => {
+        onRateChange && onRateChange(rating);
+    }, [rating, onRateChange]);
 
     return (
         <Rating
