@@ -1,7 +1,6 @@
 import Image from "next/image";
-import {Flex, FlexProps, Heading, Text, withDelay} from "@chakra-ui/react";
+import {Flex, FlexProps, Heading, Text} from "@chakra-ui/react";
 import {StarRating} from "@/components/StarRating";
-import {BookProps} from "@/@types/global";
 import React from "react";
 
 interface CardPopularProps {

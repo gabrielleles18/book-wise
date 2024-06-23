@@ -29,7 +29,6 @@ import {getRelativeTime} from "@/lib/dayjs";
 import {signIn, useSession} from "next-auth/react";
 import {SocialButton} from "@/components/SocialButton";
 import googleIcon from "../../../public/icon/google.svg";
-import githubIcon from '../../../public/icon/github.svg';
 
 interface DrawerExploreProps {
     finalFocusRef: React.RefObject<HTMLDivElement>;
