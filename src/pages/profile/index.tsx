@@ -14,7 +14,7 @@ import {getRelativeTime} from "@/lib/dayjs";
 import {useSession} from "next-auth/react";
 import {useCallback} from 'react';
 import dayjs from "dayjs";
-
+import {NextSeo} from "next-seo";
 
 export default function Profile() {
     const [search, setSearch] = React.useState<string | null>(null);
@@ -62,131 +62,138 @@ export default function Profile() {
     }
 
     return (
-        <Flex p={4} h="100vh">
-            <Sidebar/>
-            <Flex marginLeft={'calc(232px + 1rem)'} w={'100%'} alignItems={'flex-start'} flexDirection={'column'}>
-                <Flex w={'100%'} maxW={'1100px'} flexDirection={'column'} m={'0 auto'} pb={4}>
+        <>
+            <NextSeo
+                title="Perfil | Book Wise"
+                description="Acompanhe suas avaliações e estatísticas de leitura."
+            />
 
-                    <Flex mt={14} mb={10} justifyContent={'space-between'}>
-                        <Flex gap={'10px'} alignItems={'center'}>
-                            <PiUser size={34} color={theme.colors.green['400']}/>
-                            <Heading size={'lg'}>Perfil</Heading>
-                        </Flex>
+            <Flex p={4} h="100vh">
+                <Sidebar/>
+                <Flex marginLeft={'calc(232px + 1rem)'} w={'100%'} alignItems={'flex-start'} flexDirection={'column'}>
+                    <Flex w={'100%'} maxW={'1100px'} flexDirection={'column'} m={'0 auto'} pb={4}>
 
-                        <FormControl w={'430px'}>
-                            <Input
-                                size='lg'
-                                type='search'
-                                color={'green.50'}
-                                placeholder='Buscar livro avaliado'
-                                _placeholder={{color: 'green.100'}}
-                                borderColor={'green.700'}
-                                onChange={handleInputChange}
-                            />
-                        </FormControl>
-                    </Flex>
-                    <Flex className={'content'} gap={16}>
-                        <Flex gap={6} flexDirection={'column'} flex={1}>
-                            {rating?.map((rate: any) => {
-                                const imageSrc = `http://localhost:3000/${rate.book.cover_url}`;
-
-                                return (
-                                    <Flex flexDirection={'column'} key={rate.id}>
-                                        <Text
-                                            mb={1}
-                                            color={'gray.100'}
-                                            textTransform={'capitalize'}
-                                        >
-                                            {getRelativeTime(rate.created_at)}
-                                        </Text>
-                                        <Flex sx={boxCardStyles}>
-                                            <Flex gap={5}>
-                                                <Image
-                                                    src={imageSrc}
-                                                    alt={''}
-                                                    width={98}
-                                                    height={134}
-                                                    objectFit={'contain'}
-                                                />
-                                                <Flex w={'100%'} flexDirection={'column'}>
-                                                    <Heading
-                                                        color={'gray.50'}
-                                                        fontSize={'lg'}
-                                                        mb={1}
-                                                    >
-                                                        {rate.book.name}
-                                                    </Heading>
-                                                    <Text color={'gray.200'}>{rate.book.author}</Text>
-
-                                                    <Flex flex={1} alignItems={'flex-end'}>
-                                                        <StarRating rate={parseInt(rate.rate)}/>
-                                                    </Flex>
-                                                </Flex>
-                                            </Flex>
-                                            <Text fontSize={'lg'} lineHeight={7}>{rate.description}</Text>
-                                        </Flex>
-                                    </Flex>
-                                )
-                            })}
-
-                            {!rating?.length && (
-                                <Flex w={'100%'} h={'100%'}>
-                                    <Text color={'gray.100'}>Nenhum livro avaliado por você.</Text>
-                                </Flex>
-                            )}
-                        </Flex>
-
-                        <Flex
-                            className={'sidebar'}
-                            flexBasis={'360px'}
-                            px={16}
-                            py={5}
-                            gap={12}
-                            borderLeftColor={'gray.800'}
-                            borderLeftWidth={'1px'}
-                            flexDirection={'column'}
-                        >
-                            <Flex alignItems={'center'} flexDirection={'column'} width={'100%'} gap={1}>
-                                <Avatar
-                                    name={user?.name}
-                                    src={user?.image || ''}
-                                    size={'lg'}
-                                    mb={4}
-                                />
-                                <Heading as={'h5'} size={'md'}>{user?.name}</Heading>
-                                <Text fontSize={'xs'} color={'gray.100'}>membro desde {memberSince}</Text>
-                                <Box w={'40px'} h={'5px'} bg={'green.500'} borderRadius={999} mt={10}></Box>
+                        <Flex mt={14} mb={10} justifyContent={'space-between'}>
+                            <Flex gap={'10px'} alignItems={'center'}>
+                                <PiUser size={34} color={theme.colors.green['400']}/>
+                                <Heading size={'lg'}>Perfil</Heading>
                             </Flex>
 
-                            <Flex flexDirection={'column'} gap={14}>
-                                <AnalyticItem
-                                    icon={<IoBookOutline size={32} color={theme.colors.green['300']}/>}
-                                    title={'Páginas lidas'}
-                                    value={pagesRead || '0'}
+                            <FormControl w={'430px'}>
+                                <Input
+                                    size='lg'
+                                    type='search'
+                                    color={'green.50'}
+                                    placeholder='Buscar livro avaliado'
+                                    _placeholder={{color: 'green.100'}}
+                                    borderColor={'green.700'}
+                                    onChange={handleInputChange}
                                 />
+                            </FormControl>
+                        </Flex>
+                        <Flex className={'content'} gap={16}>
+                            <Flex gap={6} flexDirection={'column'} flex={1}>
+                                {rating?.map((rate: any) => {
+                                    const imageSrc = `http://localhost:3000/${rate.book.cover_url}`;
 
-                                <AnalyticItem
-                                    icon={<GiBookshelf size={32} color={theme.colors.green['300']}/>}
-                                    title={'Livros avaliados'}
-                                    value={rating?.length || '0'}
-                                />
+                                    return (
+                                        <Flex flexDirection={'column'} key={rate.id}>
+                                            <Text
+                                                mb={1}
+                                                color={'gray.100'}
+                                                textTransform={'capitalize'}
+                                            >
+                                                {getRelativeTime(rate.created_at)}
+                                            </Text>
+                                            <Flex sx={boxCardStyles}>
+                                                <Flex gap={5}>
+                                                    <Image
+                                                        src={imageSrc}
+                                                        alt={''}
+                                                        width={98}
+                                                        height={134}
+                                                        objectFit={'contain'}
+                                                    />
+                                                    <Flex w={'100%'} flexDirection={'column'}>
+                                                        <Heading
+                                                            color={'gray.50'}
+                                                            fontSize={'lg'}
+                                                            mb={1}
+                                                        >
+                                                            {rate.book.name}
+                                                        </Heading>
+                                                        <Text color={'gray.200'}>{rate.book.author}</Text>
 
-                                <AnalyticItem
-                                    icon={<PiUserListBold size={32} color={theme.colors.green['300']}/>}
-                                    title={'Autores lidos'}
-                                    value={authorsRead?.length || '0'}
-                                />
+                                                        <Flex flex={1} alignItems={'flex-end'}>
+                                                            <StarRating rate={parseInt(rate.rate)}/>
+                                                        </Flex>
+                                                    </Flex>
+                                                </Flex>
+                                                <Text fontSize={'lg'} lineHeight={7}>{rate.description}</Text>
+                                            </Flex>
+                                        </Flex>
+                                    )
+                                })}
 
-                                <AnalyticItem
-                                    icon={<IoBookmarkOutline size={32} color={theme.colors.green['300']}/>}
-                                    title={'Categoria mais lida'}
-                                    value={'Horror'}
-                                />
+                                {!rating?.length && (
+                                    <Flex w={'100%'} h={'100%'}>
+                                        <Text color={'gray.100'}>Nenhum livro avaliado por você.</Text>
+                                    </Flex>
+                                )}
+                            </Flex>
+
+                            <Flex
+                                className={'sidebar'}
+                                flexBasis={'360px'}
+                                px={16}
+                                py={5}
+                                gap={12}
+                                borderLeftColor={'gray.800'}
+                                borderLeftWidth={'1px'}
+                                flexDirection={'column'}
+                            >
+                                <Flex alignItems={'center'} flexDirection={'column'} width={'100%'} gap={1}>
+                                    <Avatar
+                                        name={user?.name}
+                                        src={user?.image || ''}
+                                        size={'lg'}
+                                        mb={4}
+                                    />
+                                    <Heading as={'h5'} size={'md'}>{user?.name}</Heading>
+                                    <Text fontSize={'xs'} color={'gray.100'}>membro desde {memberSince}</Text>
+                                    <Box w={'40px'} h={'5px'} bg={'green.500'} borderRadius={999} mt={10}></Box>
+                                </Flex>
+
+                                <Flex flexDirection={'column'} gap={14}>
+                                    <AnalyticItem
+                                        icon={<IoBookOutline size={32} color={theme.colors.green['300']}/>}
+                                        title={'Páginas lidas'}
+                                        value={pagesRead || '0'}
+                                    />
+
+                                    <AnalyticItem
+                                        icon={<GiBookshelf size={32} color={theme.colors.green['300']}/>}
+                                        title={'Livros avaliados'}
+                                        value={rating?.length || '0'}
+                                    />
+
+                                    <AnalyticItem
+                                        icon={<PiUserListBold size={32} color={theme.colors.green['300']}/>}
+                                        title={'Autores lidos'}
+                                        value={authorsRead?.length || '0'}
+                                    />
+
+                                    <AnalyticItem
+                                        icon={<IoBookmarkOutline size={32} color={theme.colors.green['300']}/>}
+                                        title={'Categoria mais lida'}
+                                        value={'Horror'}
+                                    />
+                                </Flex>
                             </Flex>
                         </Flex>
                     </Flex>
                 </Flex>
             </Flex>
-        </Flex>
+        </>
     )
 }
