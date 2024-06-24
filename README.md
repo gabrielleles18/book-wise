@@ -35,4 +35,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 Open [http://localhost:5555](http://localhost:5555) with your browser to see the prisma studio.
 
-![Print tela inicial](https://github.com/gabrielleles18/book-wise/blob/main/public/images/home.png)
+![Print tela inicial](https://github.com/gabrielleles18/book-wise/blob/main/public/images/print-home.png)
