@@ -1,9 +1,14 @@
 import {NextApiRequest, NextApiResponse, NextPageContext} from 'next'
 import NextAuth, {NextAuthOptions} from 'next-auth'
-import GitHubProvider from 'next-auth/providers/github'
 import {PrismaAdapter} from '@/lib/auth/prisma-adapter'
-import GoogleProvider, {GoogleProfile} from "next-auth/providers/google";
+import GoogleProvider from "next-auth/providers/google";
 
+/**
+ * This function builds the options for NextAuth.
+ * @param {NextApiRequest | NextPageContext['req']} req - The request object.
+ * @param {NextApiResponse | NextPageContext['res']} res - The response object.
+ * @returns {NextAuthOptions} - The options for NextAuth.
+ */
 export function buildNextAuthOptions(
     req: NextApiRequest | NextPageContext['req'],
     res: NextApiResponse | NextPageContext['res'],
@@ -29,7 +34,15 @@ export function buildNextAuthOptions(
             //     // Se alguma das verificações falhar, retornar verdadeiro
             //     return true;
             // },
-            async session({session, user}) {
+
+            /**
+             * This callback is triggered when a session is accessed.
+             * @param {Object} param0 - An object containing the session and user.
+             * @param {Object} param0.session - The session object.
+             * @param {Object} param0.user - The user object.
+             * @returns {Object} - The updated session object.
+             */
+            session: async function ({session, user}) {
                 return {
                     ...session,
                     user,
@@ -39,6 +52,13 @@ export function buildNextAuthOptions(
     }
 }
 
+/**
+ * This is the main authentication function.
+ * It uses NextAuth with the options built by buildNextAuthOptions.
+ * @param {NextApiRequest} req - The request object.
+ * @param {NextApiResponse} res - The response object.
+ * @returns {Promise} - The result of the NextAuth function.
+ */
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     return NextAuth(req, res, buildNextAuthOptions(req, res))
 }
