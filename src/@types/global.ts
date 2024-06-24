@@ -8,30 +8,26 @@ export interface BookProps {
     total_pages: number
     ratings?: RatingProps[]
     categories: any[]
-
 }
 
 export interface UserProps {
     id: string
     name: string
-    created_at: Date
     avatar_url: string
+    email: string
+    created_at: Date
 }
 
 export interface RatingProps {
     id: string
-    book_id: string
-    created_at: Date
-    description: string
     rate: number
+    description: string
+    created_at: Date
+    book_id: string
     user_id: string
 
     user?: UserProps
     book?: BookProps
-}
-
-export interface BooksProps extends RatingProps {
-
 }
 
 export interface RatingPopularProps {
@@ -44,3 +40,15 @@ export interface RatingPopularProps {
 
     book: BookProps
 }
+
+
+export interface CategoryProps {
+    id: string
+    name: string
+}
+
+export interface CategoriesOnBooksProps {
+    book_id: string
+    category_id: string
+}
+
