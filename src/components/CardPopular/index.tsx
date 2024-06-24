@@ -2,16 +2,10 @@ import Image from "next/image";
 import {Flex, FlexProps, Heading, Text} from "@chakra-ui/react";
 import {StarRating} from "@/components/StarRating";
 import React from "react";
+import {RatingProps} from "@/@types/global";
 
 interface CardPopularProps {
-    rate: {
-        book_id: string
-        created_at: Date
-        description: string
-        id: string
-        rate: number
-        user_id: string
-    } | number,
+    rate: RatingProps[] | number,
     coverUrl: string
     name: string
     author: string
@@ -38,7 +32,7 @@ export function CardPopular({rate, coverUrl, name, author, withCont, ref, onClic
         ...styles
     }
     const imageSrc = `http://localhost:3000/${coverUrl}`;
-    const medRate = typeof rate !== 'number' ? rate && Array.isArray(rate) ? rate.reduce((acc, curr) => acc + curr.rate, 0) / rate.length : rate.rate : rate;
+    const medRate = typeof rate !== 'number' ? rate && Array.isArray(rate) ? rate.reduce((acc, curr) => acc + curr.rate, 0) / rate.length : rate?.rate : rate;
 
     return (
         <Flex sx={boxStyles} ref={ref} onClick={onClick}>

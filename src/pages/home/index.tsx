@@ -9,11 +9,20 @@ import {CaretRight} from "phosphor-react";
 import {theme} from "@/styles/themes/default";
 import {api} from "@/lib/axios";
 import {useQuery} from "react-query";
-import {RatingPopularProps, RatingProps} from "@/@types/global";
+import {BookProps, RatingProps, UserProps} from "@/@types/global";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {NextSeo} from "next-seo";
 import {MenuMobile} from "@/components/MenuMobile";
+
+interface RatingUBProps extends RatingProps {
+    user: UserProps
+    book: BookProps
+}
+
+interface RatingBProps extends RatingProps {
+    book: BookProps
+}
 
 export default function Home() {
     const session = useSession();
@@ -108,7 +117,7 @@ export default function Home() {
                                     </Flex>
                                 )}
 
-                                {ratingByUser?.map((book: RatingProps) => (
+                                {ratingByUser?.map((book: RatingUBProps) => (
                                     <CardDetails
                                         key={book.id}
                                         user={book.user}
@@ -121,7 +130,7 @@ export default function Home() {
 
                                 <Text mb={'4px'}>Avaliações mais recentes</Text>
 
-                                {rating?.map((book: RatingProps) => (
+                                {rating?.map((book: RatingUBProps) => (
                                     <CardDetails
                                         key={book.id}
                                         user={book.user}
@@ -149,7 +158,7 @@ export default function Home() {
                                     </Flex>
                                 </Flex>
 
-                                {ratingPopular?.map((book: RatingPopularProps) => (
+                                {ratingPopular?.map((book: RatingBProps) => (
                                     <CardPopular
                                         key={book.id}
                                         name={book.book.name}

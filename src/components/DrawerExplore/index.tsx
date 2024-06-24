@@ -21,7 +21,7 @@ import Image from "next/image";
 import {StarRating} from "@/components/StarRating";
 import {useQuery} from "react-query";
 import {api} from "@/lib/axios";
-import {BookProps, RatingProps, UserProps} from "@/@types/global";
+import {BookProps, CategoryProps, RatingProps, UserProps} from "@/@types/global";
 import {IoBookmarkOutline, IoBookOutline} from "react-icons/io5";
 import {theme} from "@/styles/themes/default";
 import {CheckIcon, CloseIcon} from "@chakra-ui/icons";
@@ -37,13 +37,9 @@ interface DrawerExploreProps {
     bookId: string | null;
 }
 
-interface RatingPropsTeste {
-    id: string;
-    book_id: string;
-    created_at: Date;
-    rate: number;
-    user_id: string;
-    user: UserProps;
+interface BookCRProps extends BookProps {
+    categories: CategoryProps,
+    ratings: RatingProps,
 }
 
 export function DrawerExplore({finalFocusRef, isOpenD, onCloseD, bookId}: DrawerExploreProps) {
@@ -58,7 +54,7 @@ export function DrawerExplore({finalFocusRef, isOpenD, onCloseD, bookId}: Drawer
     const session = useSession();
     const user = session.data?.user;
 
-    const {data: book} = useQuery<BookProps>({
+    const {data: book} = useQuery({
         queryKey: ['book', bookId, isRatingCreated],
         queryFn: async () => {
             const response = await api.get(`/books/${bookId}`)
@@ -79,7 +75,7 @@ export function DrawerExplore({finalFocusRef, isOpenD, onCloseD, bookId}: Drawer
     }
 
     const imageSrc = `http://localhost:3000/${book?.cover_url}`;
-    const rating = book?.ratings as RatingPropsTeste[];
+    const rating = book?.ratings ?? [];
 
     React.useEffect(() => {
         if (Array.isArray(rating)) {

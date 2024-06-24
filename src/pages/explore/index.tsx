@@ -1,4 +1,4 @@
-import {Button, Flex, FormControl, Heading, Input, MenuIcon, useBreakpoint, useDisclosure} from "@chakra-ui/react";
+import {Button, Flex, FormControl, Heading, Input, useBreakpoint, useDisclosure} from "@chakra-ui/react";
 import {Sidebar} from "@/components/Sidebar";
 import {PiBinoculars} from "react-icons/pi";
 import {theme} from "@/styles/themes/default";
@@ -8,28 +8,11 @@ import {api} from "@/lib/axios";
 import {CardPopular} from "@/components/CardPopular";
 import {DrawerExplore} from "@/components/DrawerExplore";
 import {NextSeo} from "next-seo";
-import {MdMenuOpen} from "react-icons/md";
 import {MenuMobile} from "@/components/MenuMobile";
+import {BookProps, CategoryProps, RatingProps} from "@/@types/global";
 
-interface CategoryProps {
-    id: number;
-    name: string;
-}
-
-interface CardPopularProps {
-    ratings: {
-        book_id: string
-        created_at: Date
-        description: string
-        id: string
-        rate: number
-        user_id: string
-    },
-    cover_url: string
-    name: string
-    author: string
-    withCont?: string
-    id: string
+interface BooksRProps extends BookProps {
+    ratings: RatingProps[] | number
 }
 
 export default function explore() {
@@ -146,7 +129,7 @@ export default function explore() {
                             gridTemplateColumns={{base: '1fr', md: '1fr 1fr 1fr'}}
                             display={'grid'}
                         >
-                            {books?.map((book: CardPopularProps) => (
+                            {books?.map((book: BooksRProps) => (
                                 <CardPopular
                                     key={book.id}
                                     rate={book.ratings}

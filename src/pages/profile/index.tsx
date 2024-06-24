@@ -16,6 +16,11 @@ import {useCallback} from 'react';
 import dayjs from "dayjs";
 import {NextSeo} from "next-seo";
 import {MenuMobile} from "@/components/MenuMobile";
+import {BookProps, RatingProps} from "@/@types/global";
+
+interface RatingBProps extends RatingProps {
+    book: BookProps
+}
 
 export default function Profile() {
     const [search, setSearch] = React.useState<string | null>(null);
@@ -110,7 +115,7 @@ export default function Profile() {
                         </Flex>
                         <Flex className={'content'} gap={{base: 4, xl: 14}} flexDirection={{base: 'column', md: 'row'}}>
                             <Flex gap={6} flexDirection={'column'} flex={1}>
-                                {rating?.map((rate: any) => {
+                                {rating?.map((rate: RatingBProps) => {
                                     const imageSrc = `http://localhost:3000/${rate.book.cover_url}`;
 
                                     return (
@@ -142,7 +147,7 @@ export default function Profile() {
                                                         <Text color={'gray.200'}>{rate.book.author}</Text>
 
                                                         <Flex flex={1} alignItems={'flex-end'}>
-                                                            <StarRating rate={parseInt(rate.rate)}/>
+                                                            <StarRating rate={rate.rate}/>
                                                         </Flex>
                                                     </Flex>
                                                 </Flex>

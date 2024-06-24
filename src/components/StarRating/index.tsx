@@ -10,7 +10,7 @@ interface StarRatingProps {
 }
 
 export function StarRating({rate = 0, isDisabled = true, onRateChange}: StarRatingProps) {
-    const [rating, setRating] = useState(rate);
+    const [rating, setRating] = useState<number>(rate);
 
     useEffect(() => {
         onRateChange && onRateChange(rating);
