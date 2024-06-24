@@ -1,48 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped
-with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [Next.js](https://nextjs.org/) project
+with [Prisma](https://www.prisma.io/), [sqlite](https://www.sqlite.org/),
+[chakra-ui](https://v2.chakra-ui.com/) and [typescript](https://www.typescriptlang.org/).
+
+* **Prisma** is an open-source ORM for Node.js and TypeScript. It is used as an alternative to writing plain SQL, or using another database access tool such as SQL query builders (like knex.js) or ORMs (like TypeORM and Sequelize).
+
+* **SQLite** is an embedded SQL database engine. Unlike most other SQL databases, SQLite does not have a separate server process.
+
+* **Chakra UI** is a simple, modular and accessible component library that gives you the building blocks you need to build your React applications.
+
+* **TypeScript** is a strongly typed programming language that builds on JavaScript, giving you better tooling at any scale.
+
+This project is a book review website where you can explore books, add a new review to an available book, view the details of a book, and see other reviews made by users.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Install dependencies
+yarn install
+
+# Run project in development mode
+yarn run dev
+
+# Build project
+yarn run build
+
+# Run project in production mode
+yarn run start
+
+# Run prisma studio
+prisma studio
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the project.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Open [http://localhost:5555](http://localhost:5555) with your browser to see the prisma studio.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed
-on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited
-in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated
-as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and
-load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions
-are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use
-the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![Print tela inicial](https://github.com/gabrielleles18/book-wise/blob/main/public/images/home.png)
