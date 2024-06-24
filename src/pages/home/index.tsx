@@ -65,10 +65,7 @@ export default function Home() {
             />
 
             <Flex p={4} h="100vh">
-                {breakpoint === 'base' || breakpoint === 'sm' || breakpoint === 'md' ? (
-                    <>
-                    </>
-                ) : (
+                {breakpoint != 'base' && breakpoint !== 'sm' && breakpoint !== 'md' && (
                     <Sidebar/>
                 )}
 

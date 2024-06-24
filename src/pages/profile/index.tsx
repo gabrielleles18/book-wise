@@ -1,6 +1,6 @@
 import {Sidebar} from "@/components/Sidebar";
 import React from "react";
-import {Avatar, Box, Flex, FormControl, Heading, Input, Text} from "@chakra-ui/react";
+import {Avatar, Box, Flex, FormControl, Heading, Input, Text, useBreakpoint} from "@chakra-ui/react";
 import {PiUser, PiUserListBold} from "react-icons/pi";
 import {theme} from "@/styles/themes/default";
 import {useQuery} from "react-query";
@@ -15,10 +15,12 @@ import {useSession} from "next-auth/react";
 import {useCallback} from 'react';
 import dayjs from "dayjs";
 import {NextSeo} from "next-seo";
+import {MenuMobile} from "@/components/MenuMobile";
 
 export default function Profile() {
     const [search, setSearch] = React.useState<string | null>(null);
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
+    const breakpoint = useBreakpoint();
 
     const session = useSession();
     const user = session.data?.user;
@@ -69,11 +71,26 @@ export default function Profile() {
             />
 
             <Flex p={4} h="100vh">
-                <Sidebar/>
-                <Flex marginLeft={'calc(232px + 1rem)'} w={'100%'} alignItems={'flex-start'} flexDirection={'column'}>
+                {breakpoint != 'base' && breakpoint !== 'sm' && breakpoint !== 'md' && (
+                    <Sidebar/>
+                )}
+                <Flex
+                    marginLeft={{base: '0', lg: 'calc(232px + 1rem)'}}
+                    w={'100%'}
+                    alignItems={'flex-start'}
+                    flexDirection={'column'}
+                >
+                    <MenuMobile/>
+
                     <Flex w={'100%'} maxW={'1100px'} flexDirection={'column'} m={'0 auto'} pb={4}>
 
-                        <Flex mt={14} mb={10} justifyContent={'space-between'}>
+                        <Flex
+                            mt={{base: 4, lg: 14}}
+                            mb={10}
+                            justifyContent={'space-between'}
+                            gap={6}
+                            alignItems={'center'}
+                        >
                             <Flex gap={'10px'} alignItems={'center'}>
                                 <PiUser size={34} color={theme.colors.green['400']}/>
                                 <Heading size={'lg'}>Perfil</Heading>
@@ -91,7 +108,7 @@ export default function Profile() {
                                 />
                             </FormControl>
                         </Flex>
-                        <Flex className={'content'} gap={16}>
+                        <Flex className={'content'} gap={{base: 4, xl: 14}} flexDirection={{base: 'column', md: 'row'}}>
                             <Flex gap={6} flexDirection={'column'} flex={1}>
                                 {rating?.map((rate: any) => {
                                     const imageSrc = `http://localhost:3000/${rate.book.cover_url}`;
