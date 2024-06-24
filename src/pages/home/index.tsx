@@ -1,4 +1,4 @@
-import {Flex, Heading, Text} from '@chakra-ui/react';
+import {Flex, Heading, Text, useBreakpoint} from '@chakra-ui/react';
 
 import {Sidebar} from "@/components/Sidebar";
 import {CardDetails} from "@/components/CardDetails";
@@ -13,11 +13,13 @@ import {RatingPopularProps, RatingProps} from "@/@types/global";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {NextSeo} from "next-seo";
+import {MenuMobile} from "@/components/MenuMobile";
 
 export default function Home() {
     const session = useSession();
     const user = session.data?.user;
     const navigation = useRouter();
+    const breakpoint = useBreakpoint();
 
     const {data: ratingByUser, status} = useQuery({
         queryKey: ['ratingByUserIdOnly'],
@@ -63,18 +65,32 @@ export default function Home() {
             />
 
             <Flex p={4} h="100vh">
-                <Sidebar/>
-                <Flex marginLeft={'calc(232px + 1rem)'} w={'100%'} alignItems={'flex-start'} flexDirection={'column'}>
+                {breakpoint === 'base' || breakpoint === 'sm' || breakpoint === 'md' ? (
+                    <>
+                    </>
+                ) : (
+                    <Sidebar/>
+                )}
 
+                <Flex
+                    marginLeft={{base: '0', lg: 'calc(232px + 1rem)'}}
+                    w={'100%'}
+                    alignItems={'flex-start'}
+                    flexDirection={'column'}
+                >
+                    <MenuMobile/>
                     <Flex w={'100%'} maxW={'1100px'} flexDirection={'column'} m={'0 auto'} pb={4}>
-                        <Flex mt={14} mb={10}>
+                        <Flex
+                            mt={{base: 4, lg: 14}}
+                            mb={10}
+                        >
                             <Flex gap={'10px'} alignItems={'center'}>
                                 <PiChartLineUp size={34} color={theme.colors.green['400']}/>
                                 <Heading size={'lg'}>Início</Heading>
                             </Flex>
                         </Flex>
 
-                        <Flex flexDirection={'row'} gap={14}>
+                        <Flex flexDirection={{base: 'column', md: 'row'}} gap={{base: 4, xl: 14}}>
                             <Flex flex={1} gap={'12px'} flexDirection={'column'}>
                                 {ratingByUser && (
                                     <Flex w={'100%'} justifyContent={'space-between'} mb={1}>
@@ -118,7 +134,7 @@ export default function Home() {
                                     />
                                 ))}
                             </Flex>
-                            <Flex w={'324px'} flexDirection={'column'} gap={3}>
+                            <Flex w={{base: '100%', md: '324px'}} flexDirection={'column'} gap={3}>
                                 <Flex w={'100%'} justifyContent={'space-between'} mb={1}>
                                     <Text>Livros populares</Text>
 

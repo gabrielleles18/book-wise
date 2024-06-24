@@ -40,8 +40,6 @@ export default function explore() {
     const {isOpen, onOpen, onClose} = useDisclosure();
     const breakpoint = useBreakpoint();
 
-    console.log(breakpoint);
-
     const {data: category} = useQuery({
         queryKey: ['category'],
         queryFn: async () => {
