@@ -2,7 +2,7 @@ import Image from "next/image";
 import {Flex, FlexProps, Heading, Text} from "@chakra-ui/react";
 import {StarRating} from "@/components/StarRating";
 import React from "react";
-import {RatingProps} from "@/@types/global";
+import {RatingProps} from "@/@types/schema.prisma";
 
 interface CardPopularProps {
     rate: RatingProps[] | number,
@@ -31,12 +31,25 @@ export function CardPopular({rate, coverUrl, name, author, withCont, ref, onClic
         },
         ...styles
     }
-    const imageSrc = `http://localhost:3000/${coverUrl}`;
-    const medRate = typeof rate !== 'number' ? rate && Array.isArray(rate) ? rate.reduce((acc, curr) => acc + curr.rate, 0) / rate.length : rate?.rate : rate;
+
+    let medRate = 0;
+    if (typeof rate !== 'number') {
+        if (rate && Array.isArray(rate)) {
+            medRate = rate.reduce((acc, curr) => acc + curr.rate, 0) / rate.length;
+        }
+    } else {
+        medRate = rate;
+    }
 
     return (
         <Flex sx={boxStyles} ref={ref} onClick={onClick}>
-            <Image src={imageSrc} alt={''} width={64} height={94} objectFit={'contain'}/>
+            <Image
+                src={process.env.NEXT_PUBLIC_URL + coverUrl}
+                alt={''}
+                width={64}
+                height={94}
+                objectFit={'contain'}
+            />
             <Flex w={'100%'} flexDirection={'column'}>
                 <Heading color={'gray.50'} fontSize={'md'} mb={1}>{name}</Heading>
                 <Text color={'gray.200'}>{author}</Text>

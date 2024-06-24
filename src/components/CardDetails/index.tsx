@@ -3,8 +3,9 @@ import Image from "next/image";
 import '@smastrom/react-rating/style.css'
 import {StarRating} from "@/components/StarRating";
 import React from "react";
-import {BookProps, UserProps} from "@/@types/global";
+import {BookProps, UserProps} from "@/@types/schema.prisma";
 import {getRelativeTime} from "@/lib/dayjs";
+import {useSession} from "next-auth/react";
 
 interface CardDetailsProps {
     user?: UserProps
@@ -15,7 +16,9 @@ interface CardDetailsProps {
 }
 
 export function CardDetails({user, book, rate, created_at, styles}: CardDetailsProps) {
-    const showUser = true;
+    const session = useSession();
+    const userSession = session.data?.user;
+
     const boxStyles = {
         px: 7,
         py: 6,
@@ -28,11 +31,12 @@ export function CardDetails({user, book, rate, created_at, styles}: CardDetailsP
         ...styles
     }
 
-    const imageSrc = `http://localhost:3000/${book?.cover_url}`;
+    // @ts-ignore
+    const imageSrc = process.env.NEXT_PUBLIC_URL + book?.cover_url;
 
     return (
         <Flex sx={boxStyles}>
-            {showUser && (
+            {userSession && (
                 <Flex justifyContent={'space-between'} alignItems={'flex-start'}>
                     <Flex gap={4} alignItems={'center'}>
                         <Wrap>
@@ -58,14 +62,14 @@ export function CardDetails({user, book, rate, created_at, styles}: CardDetailsP
                     objectFit={'contain'}
                 />
                 <Flex flexDirection={'column'} w={'100%'}>
-                    {/*{!showUser && (*/}
-                    {/*    <Flex w={'100%'} justifyContent={'space-between'} alignItems={'flex-start'} mb={4}>*/}
-                    {/*        <Text color={'gray.50'}>*/}
-                    {/*            {dateFromNow}*/}
-                    {/*        </Text>*/}
-                    {/*        <StarRating/>*/}
-                    {/*    </Flex>*/}
-                    {/*)}*/}
+                    {!userSession && (
+                        <Flex w={'100%'} justifyContent={'space-between'} alignItems={'flex-start'} mb={4}>
+                            <Text color={'gray.50'}>
+                                {getRelativeTime(created_at)}
+                            </Text>
+                            <StarRating rate={rate}/>
+                        </Flex>
+                    )}
 
                     <Heading color={'gray.50'} fontSize={'2xl'} mb={1}>{book?.name}</Heading>
                     <Text color={'gray.200'}>{book?.author}</Text>

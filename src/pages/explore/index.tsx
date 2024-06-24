@@ -9,7 +9,7 @@ import {CardPopular} from "@/components/CardPopular";
 import {DrawerExplore} from "@/components/DrawerExplore";
 import {NextSeo} from "next-seo";
 import {MenuMobile} from "@/components/MenuMobile";
-import {BookProps, CategoryProps, RatingProps} from "@/@types/global";
+import {BookProps, CategoryProps, RatingProps} from "@/@types/schema.prisma";
 
 interface BooksRProps extends BookProps {
     ratings: RatingProps[] | number

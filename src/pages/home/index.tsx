@@ -9,7 +9,7 @@ import {CaretRight} from "phosphor-react";
 import {theme} from "@/styles/themes/default";
 import {api} from "@/lib/axios";
 import {useQuery} from "react-query";
-import {BookProps, RatingProps, UserProps} from "@/@types/global";
+import {BookProps, RatingProps, UserProps} from "@/@types/schema.prisma";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {NextSeo} from "next-seo";
@@ -98,7 +98,7 @@ export default function Home() {
 
                         <Flex flexDirection={{base: 'column', md: 'row'}} gap={{base: 4, xl: 14}}>
                             <Flex flex={1} gap={'12px'} flexDirection={'column'}>
-                                {ratingByUser && (
+                                {ratingByUser && ratingByUser.length > 0 && (
                                     <Flex w={'100%'} justifyContent={'space-between'} mb={1}>
                                         <Text>Sua última leitura</Text>
 

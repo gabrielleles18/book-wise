@@ -16,7 +16,7 @@ import {useCallback} from 'react';
 import dayjs from "dayjs";
 import {NextSeo} from "next-seo";
 import {MenuMobile} from "@/components/MenuMobile";
-import {BookProps, RatingProps} from "@/@types/global";
+import {BookProps, RatingProps} from "@/@types/schema.prisma";
 
 interface RatingBProps extends RatingProps {
     book: BookProps
@@ -44,6 +44,8 @@ export default function Profile() {
         },
         enabled: !!user?.id
     });
+
+    console.log(rating);
 
     const reducePages = useCallback((acc: any, rate: any) => {
         return acc + rate.book.total_pages
@@ -116,8 +118,6 @@ export default function Profile() {
                         <Flex className={'content'} gap={{base: 4, xl: 14}} flexDirection={{base: 'column', md: 'row'}}>
                             <Flex gap={6} flexDirection={'column'} flex={1}>
                                 {rating?.map((rate: RatingBProps) => {
-                                    const imageSrc = `http://localhost:3000/${rate.book.cover_url}`;
-
                                     return (
                                         <Flex flexDirection={'column'} key={rate.id}>
                                             <Text
@@ -130,7 +130,7 @@ export default function Profile() {
                                             <Flex sx={boxCardStyles}>
                                                 <Flex gap={5}>
                                                     <Image
-                                                        src={imageSrc}
+                                                        src={process.env.NEXT_PUBLIC_URL + rate.book.cover_url}
                                                         alt={''}
                                                         width={98}
                                                         height={134}

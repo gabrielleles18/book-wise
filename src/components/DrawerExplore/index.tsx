@@ -21,7 +21,7 @@ import Image from "next/image";
 import {StarRating} from "@/components/StarRating";
 import {useQuery} from "react-query";
 import {api} from "@/lib/axios";
-import {BookProps, CategoryProps, RatingProps, UserProps} from "@/@types/global";
+import {CategoriesOnBooksProps, CategoryProps, RatingProps, UserProps} from "@/@types/schema.prisma";
 import {IoBookmarkOutline, IoBookOutline} from "react-icons/io5";
 import {theme} from "@/styles/themes/default";
 import {CheckIcon, CloseIcon} from "@chakra-ui/icons";
@@ -37,9 +37,12 @@ interface DrawerExploreProps {
     bookId: string | null;
 }
 
-interface BookCRProps extends BookProps {
-    categories: CategoryProps,
-    ratings: RatingProps,
+interface RatingUProps extends RatingProps {
+    user: UserProps
+}
+
+interface CategoriesCProps extends CategoriesOnBooksProps {
+    category: CategoryProps
 }
 
 export function DrawerExplore({finalFocusRef, isOpenD, onCloseD, bookId}: DrawerExploreProps) {
@@ -74,8 +77,7 @@ export function DrawerExplore({finalFocusRef, isOpenD, onCloseD, bookId}: Drawer
         mt: 4
     }
 
-    const imageSrc = `http://localhost:3000/${book?.cover_url}`;
-    const rating = book?.ratings ?? [];
+    const rating = book?.ratings as RatingUProps[] ?? [];
 
     React.useEffect(() => {
         if (Array.isArray(rating)) {
@@ -86,7 +88,7 @@ export function DrawerExplore({finalFocusRef, isOpenD, onCloseD, bookId}: Drawer
         }
     }, [rating]);
 
-    const categoriesName = book?.categories.map((category) => category.category.name).join(', ');
+    const categoriesName = book?.categories.map((category: CategoriesCProps) => category.category.name).join(', ');
 
     function handleAvaliar() {
         if (user) {
@@ -159,7 +161,13 @@ export function DrawerExplore({finalFocusRef, isOpenD, onCloseD, bookId}: Drawer
 
                         <Flex gap={6}>
                             {book?.cover_url && (
-                                <Image src={imageSrc} alt={''} width={170} height={242} objectFit={'contain'}/>
+                                <Image
+                                    src={process.env.NEXT_PUBLIC_URL + book?.cover_url}
+                                    alt={''}
+                                    width={170}
+                                    height={242}
+                                    objectFit={'contain'}
+                                />
                             )}
                             <Flex w={'100%'} flexDirection={'column'}>
                                 <Heading color={'gray.50'} fontSize={'2xl'} mb={1}>{book?.name}</Heading>
@@ -263,7 +271,7 @@ export function DrawerExplore({finalFocusRef, isOpenD, onCloseD, bookId}: Drawer
                         </Flex>
                     )}
 
-                    {book?.ratings && book.ratings.map((rating: RatingProps) => {
+                    {book?.ratings && book.ratings.map((rating: RatingUProps) => {
                         const date = rating?.created_at ? getRelativeTime(rating.created_at) : '';
                         return (
                             <Flex sx={boxStyles} key={rating.id} gap={3}>
