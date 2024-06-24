@@ -1,5 +1,5 @@
 import Image from "next/image";
-import {Avatar, Flex, Text, Wrap} from "@chakra-ui/react";
+import {Avatar, Flex, FlexProps, Text, Wrap} from "@chakra-ui/react";
 import logoImage from '../../../public/images/logo.png';
 import {PiBinoculars, PiChartLineUp, PiSignOut, PiUser} from "react-icons/pi";
 import {SidebarLink} from "@/components/SidebarLink";
@@ -8,7 +8,11 @@ import {theme} from "@/styles/themes/default";
 import {signOut, useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 
-export function Sidebar() {
+interface SidebarProps {
+    style?: FlexProps;
+}
+
+export function Sidebar({style}: SidebarProps) {
     const session = useSession();
     const user = session?.data?.user ?? null;
     const navigation = useRouter();
@@ -33,6 +37,9 @@ export function Sidebar() {
             flexDirection={'column'}
             py={'10'}
             backgroundImage={'url(./images/sidebar.png)'}
+            backgroundRepeat={'no-repeat'}
+            backgroundSize={'cover'}
+            {...style}
         >
             <Image
                 src={logoImage}

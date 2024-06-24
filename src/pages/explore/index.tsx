@@ -1,4 +1,4 @@
-import {Button, Flex, FormControl, Heading, Input, useDisclosure} from "@chakra-ui/react";
+import {Button, Flex, FormControl, Heading, Input, MenuIcon, useBreakpoint, useDisclosure} from "@chakra-ui/react";
 import {Sidebar} from "@/components/Sidebar";
 import {PiBinoculars} from "react-icons/pi";
 import {theme} from "@/styles/themes/default";
@@ -8,6 +8,8 @@ import {api} from "@/lib/axios";
 import {CardPopular} from "@/components/CardPopular";
 import {DrawerExplore} from "@/components/DrawerExplore";
 import {NextSeo} from "next-seo";
+import {MdMenuOpen} from "react-icons/md";
+import {MenuMobile} from "@/components/MenuMobile";
 
 interface CategoryProps {
     id: number;
@@ -36,6 +38,9 @@ export default function explore() {
     const [search, setSearch] = React.useState<string | null>(null);
     const [bookIdClicked, setBookIdClicked] = React.useState<string | null>(null);
     const {isOpen, onOpen, onClose} = useDisclosure();
+    const breakpoint = useBreakpoint();
+
+    console.log(breakpoint);
 
     const {data: category} = useQuery({
         queryKey: ['category'],
@@ -70,12 +75,30 @@ export default function explore() {
             />
 
             <Flex p={4} h="100vh">
-                <Sidebar/>
 
-                <Flex marginLeft={'calc(232px + 1rem)'} w={'100%'} alignItems={'flex-start'} flexDirection={'column'}>
+                {breakpoint === 'base' || breakpoint === 'sm' || breakpoint === 'md' ? (
+                    <>
+                    </>
+                ) : (
+                    <Sidebar/>
+                )}
 
+                <Flex
+                    marginLeft={{base: '0', lg: 'calc(232px + 1rem)'}}
+                    w={'100%'}
+                    alignItems={'flex-start'}
+                    flexDirection={'column'}
+                >
+                    <MenuMobile/>
                     <Flex w={'100%'} maxW={'1100px'} flexDirection={'column'} m={'0 auto'} pb={4}>
-                        <Flex mt={14} mb={10} justifyContent={'space-between'}>
+                        <Flex
+                            mt={{base: 4, lg: 14}}
+                            mb={10}
+                            justifyContent={'space-between'}
+                            gap={6}
+                            flexWrap={'wrap'}
+                            alignItems={'center'}
+                        >
                             <Flex gap={'10px'} alignItems={'center'}>
                                 <PiBinoculars size={34} color={theme.colors.green['400']}/>
                                 <Heading size={'lg'}>Explorar</Heading>
@@ -122,11 +145,15 @@ export default function explore() {
                             ))}
                         </Flex>
 
-                        <Flex flexWrap={'wrap'} gap={4}>
+                        <Flex
+                            flexWrap={'wrap'}
+                            gap={4}
+                            gridTemplateColumns={{base: '1fr', md: '1fr 1fr 1fr'}}
+                            display={'grid'}
+                        >
                             {books?.map((book: CardPopularProps) => (
                                 <CardPopular
                                     key={book.id}
-                                    withCont={'calc(33.333% - 1rem)'}
                                     rate={book.ratings}
                                     coverUrl={book.cover_url}
                                     name={book.name}
