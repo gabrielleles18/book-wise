@@ -133,7 +133,7 @@ export default function explore() {
                                 <CardPopular
                                     key={book.id}
                                     rate={book.ratings}
-                                    coverUrl={book.cover_url}
+                                    coverUrl={process.env.NEXT_PUBLIC_IMAGE_URL + book.cover_url}
                                     name={book.name}
                                     author={book.author}
                                     ref={cardPopularRef}

@@ -31,6 +31,9 @@ export function CardDetails({user, book, rate, created_at, styles}: CardDetailsP
         ...styles
     }
 
+    // @ts-ignore
+    const imageSrc = process.env.NEXT_PUBLIC_IMAGE_URL + book?.cover_url;
+
     return (
         <Flex sx={boxStyles}>
             {userSession && (
@@ -52,7 +55,7 @@ export function CardDetails({user, book, rate, created_at, styles}: CardDetailsP
             )}
             <Flex gap={'24px'} w={'100%'}>
                 <Image
-                    src={book?.cover_url || ''}
+                    src={imageSrc}
                     alt={''}
                     width={108}
                     height={152}
