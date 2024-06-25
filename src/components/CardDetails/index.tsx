@@ -32,7 +32,7 @@ export function CardDetails({user, book, rate, created_at, styles}: CardDetailsP
     }
 
     // @ts-ignore
-    const imageSrc = process.env.NEXT_PUBLIC_IMAGE_URL + book?.cover_url;
+    const imageSrc = book?.cover_url;
 
     return (
         <Flex sx={boxStyles}>
