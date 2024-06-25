@@ -44,7 +44,7 @@ export function CardPopular({rate, coverUrl, name, author, withCont, ref, onClic
     return (
         <Flex sx={boxStyles} ref={ref} onClick={onClick}>
             <Image
-                src={process.env.NEXT_PUBLIC_URL + coverUrl}
+                src={coverUrl}
                 alt={''}
                 width={64}
                 height={94}

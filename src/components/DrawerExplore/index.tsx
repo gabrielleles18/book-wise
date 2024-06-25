@@ -162,7 +162,7 @@ export function DrawerExplore({finalFocusRef, isOpenD, onCloseD, bookId}: Drawer
                         <Flex gap={6}>
                             {book?.cover_url && (
                                 <Image
-                                    src={process.env.NEXT_PUBLIC_URL + book?.cover_url}
+                                    src={book?.cover_url}
                                     alt={''}
                                     width={170}
                                     height={242}

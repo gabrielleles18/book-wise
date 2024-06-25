@@ -130,7 +130,7 @@ export default function Profile() {
                                             <Flex sx={boxCardStyles}>
                                                 <Flex gap={5}>
                                                     <Image
-                                                        src={process.env.NEXT_PUBLIC_URL + rate.book.cover_url}
+                                                        src={rate.book.cover_url}
                                                         alt={''}
                                                         width={98}
                                                         height={134}
