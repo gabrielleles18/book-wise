@@ -32,7 +32,13 @@ export function CardDetails({user, book, rate, created_at, styles}: CardDetailsP
     }
 
     // @ts-ignore
-    const imageSrc = book?.cover_url;
+    let imageSrc = '';
+
+    if (process.env.NEXT_PUBLIC_IMAGE_URL) {
+        imageSrc = process.env.NEXT_PUBLIC_IMAGE_URL + book?.cover_url;
+    } else {
+        imageSrc = book?.cover_url ?? '';
+    }
 
     return (
         <Flex sx={boxStyles}>
@@ -55,7 +61,7 @@ export function CardDetails({user, book, rate, created_at, styles}: CardDetailsP
             )}
             <Flex gap={'24px'} w={'100%'}>
                 <Image
-                    src={process.env.NEXT_PUBLIC_IMAGE_URL + imageSrc || ''}
+                    src={imageSrc}
                     alt={''}
                     width={108}
                     height={152}
