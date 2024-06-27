@@ -118,6 +118,13 @@ export default function Profile() {
                         <Flex className={'content'} gap={{base: 4, xl: 14}} flexDirection={{base: 'column', md: 'row'}}>
                             <Flex gap={6} flexDirection={'column'} flex={1}>
                                 {rating?.map((rate: RatingBProps) => {
+                                    let imageSrc = '';
+                                    if (process.env.NEXT_PUBLIC_IMAGE_URL) {
+                                        imageSrc = process.env.NEXT_PUBLIC_IMAGE_URL + rate.book.cover_url;
+                                    } else {
+                                        imageSrc = rate.book.cover_url;
+                                    }
+
                                     return (
                                         <Flex flexDirection={'column'} key={rate.id}>
                                             <Text
@@ -130,7 +137,7 @@ export default function Profile() {
                                             <Flex sx={boxCardStyles}>
                                                 <Flex gap={5}>
                                                     <Image
-                                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + rate.book.cover_url}
+                                                        src={imageSrc}
                                                         alt={''}
                                                         width={98}
                                                         height={134}
