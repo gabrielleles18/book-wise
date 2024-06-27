@@ -29,6 +29,12 @@ yarn run start
 
 # Run prisma studio
 prisma studio
+
+# Database
+docker run --name postgres -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
+
+# Migrate database
+npx prisma migrate dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the project.
