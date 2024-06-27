@@ -123,6 +123,13 @@ export function DrawerExplore({finalFocusRef, isOpenD, onCloseD, bookId}: Drawer
         }
     }, [existUser]);
 
+    let imageSrc = '';
+    if (process.env.NEXT_PUBLIC_IMAGE_URL){
+        imageSrc = process.env.NEXT_PUBLIC_IMAGE_URL + book?.cover_url;
+    }else{
+        imageSrc = book?.cover_url ?? '';
+    }
+
     return (
         <>
             <Modal isOpen={isOpenModal} onClose={onCloseModal} isCentered>
@@ -162,7 +169,7 @@ export function DrawerExplore({finalFocusRef, isOpenD, onCloseD, bookId}: Drawer
                         <Flex gap={6}>
                             {book?.cover_url && (
                                 <Image
-                                    src={process.env.NEXT_PUBLIC_IMAGE_URL + book?.cover_url}
+                                    src={imageSrc}
                                     alt={''}
                                     width={170}
                                     height={242}

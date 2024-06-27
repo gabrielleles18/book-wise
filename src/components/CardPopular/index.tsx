@@ -41,10 +41,17 @@ export function CardPopular({rate, coverUrl, name, author, withCont, ref, onClic
         medRate = rate;
     }
 
+    let imageSrc = '';
+    if (process.env.NEXT_PUBLIC_IMAGE_URL) {
+        imageSrc = process.env.NEXT_PUBLIC_IMAGE_URL + coverUrl;
+    } else {
+        imageSrc = coverUrl;
+    }
+
     return (
         <Flex sx={boxStyles} ref={ref} onClick={onClick}>
             <Image
-                src={process.env.NEXT_PUBLIC_IMAGE_URL + coverUrl}
+                src={imageSrc}
                 alt={''}
                 width={64}
                 height={94}
